@@ -5,12 +5,19 @@ import { Link } from 'react-router-dom';
 const Modal = ({ isOpen, onClose }) => {
   const modalClass = isOpen ? 'block' : 'hidden';
 
+  const handleOverlayClick = (e) => {
+    // Check if the click target is the overlay (outside modal content)
+    if (e.target.classList.contains('modal-overlay')) {
+      onClose();
+    }
+  };
+
   return (
     <div
       className={`fixed overflow-hidden top-0 z-40 left-0 w-full h-full bg-gray-800 bg-opacity-50 ${modalClass}`}
-      onClick={onClose}
+      onClick={handleOverlayClick}
     >
-      <div className="fixed top-[4.5rem] left-1/2 transform -translate-x-1/2  bg-gray-200 px-3 py-5 w-[40%] border-[white] border-b-2 text-black rounded shadow-lg max-lg:w-[60%] max-md:w-[80%] max-sm:w-[100%]">
+      <div className="fixed top-[4.5rem] left-1/2 transform -translate-x-1/2  bg-white px-3 py-5 w-[40%] border-[white] border-b-2 text-black rounded shadow-lg max-lg:w-[60%] max-md:w-[80%] max-sm:w-[100%]">
         <div className="flex justify-between">
           <p className="text-xl font-bold mb-4">At your first sign in</p>
           <button

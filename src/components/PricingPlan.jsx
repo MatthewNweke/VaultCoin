@@ -7,17 +7,14 @@ const PricingPlan = () => {
 
   const handleAmountChange = (event) => {
     setEnteredAmount(event.target.value);
-    // Clear the error message when the user starts typing again
     setAmountError('');
   };
 
   const handleDepositClick = () => {
-    // Check if the entered amount is less than 10000
     if (parseInt(enteredAmount, 10) < 10000) {
       setAmountError('Minimum amount is $10,000');
     } else {
-      // Proceed with the deposit logic here
-      // For now, let's just log a message to the console
+      
       setAmountError('Minimum amount is $10,000');
     }
   };

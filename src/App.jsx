@@ -7,7 +7,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Home from './pages/Home';
 import Terms from './pages/Terms';
 import Dashboard from './dashboard/Dashboard';
-import SignIn from './dashboard/SignIn';
+import SignIn from './pages/SignIn';
 import MyReferral from './dashboard/MyReferral';
 import Payment from './dashboard/Payment';
 

@@ -66,6 +66,8 @@ const Register = () => {
 
     setIsLoading(true);
 
+    setIsLoading(true);
+
     try {
       const response = await axios.post(
         `${API_URL}/user/auth/create/`,
@@ -86,8 +88,16 @@ const Register = () => {
         }
       );
 
-      // Handle the response data (e.g., display success message)
-      console.log('API Response:', response.data);
+      // Assuming the API response structure is similar to the provided example
+      const { access, refresh, user } = response.data;
+
+      // Store tokens in localStorage or a secure storage mechanism
+      localStorage.setItem('access_token', access);
+      localStorage.setItem('refresh_token', refresh);
+
+      // Handle user data if needed
+      console.log('User Data:', user);
+
       // Reset the form after successful submission
       setFormData({
         email: '',
@@ -100,26 +110,37 @@ const Register = () => {
         referral_code: '',
         country: '',
       });
+
+      setError('Account Created Successfully');
     } catch (error) {
-      // Handle errors
-      console.error('Error:', error.message);
+      // Error handling...
 
       if (error.response) {
-        console.error('Response Status:', error.response.status);
-
-        if (Array.isArray(error.response.data?.Error)) {
-          const serverError = error.response.data.Error[0];
-          console.error('Server Error:', serverError);
-          setError(serverError || 'An error occurred');
-        } else {
-          console.error('Response Data:', error.response.data);
-          setError('An error occurred');
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        if (error.response.status === 400) {
+          // Custom error handling based on the response data
+          const { data } = error.response;
+          if (
+            data.email &&
+            data.email[0] === 'custom user with this Email already exists.'
+          ) {
+            setError('User with this email already exists.');
+          } else if (
+            data.username &&
+            data.username[0] ===
+              'custom user with this User Name already exists.'
+          ) {
+            setError('User with this username already exists.');
+            
+          } else {
+            // Handle other specific error cases if needed
+            setError('Registration failed. Please check your input.');
+          }
         }
-      } else if (error.request) {
-        console.error('No response received from the server.');
       } else {
-        console.error('Error Details:', error);
-        setError('An error occurred');
+        // Handle other types of errors (e.g., network error)
+        setError('An unexpected error occurred. Please try again later.');
       }
     } finally {
       setIsLoading(false);
@@ -150,7 +171,7 @@ const Register = () => {
                 Our goal is to provide our investors with a reliable source of
                 high income, join us today.
               </p>
-              <p className='text-black font-medium'>
+              <p className="text-black font-medium">
                 Please fill in the details below
               </p>
             </div>
@@ -272,11 +293,10 @@ const Register = () => {
                   value={formData.referral_code}
                   onChange={handleInputChange}
                   required
-                  className="text-white bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
+                  className=" bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
                 />
               </div>
               <div className="flex items-center gap-3 ">
-                <label htmlFor="is_active"></label>
                 <input
                   type="checkbox"
                   name="is_active"
@@ -302,16 +322,21 @@ const Register = () => {
                   disabled={isLoading}
                   className="border-2 border-blue-700 rounded-lg bg-white text-blue-700 px-3 py-2 text-center relative left-1/2 my-10 -translate-x-[50%]"
                 >
-                  {isLoading ? 'Creating...' : 'Create User'}
+                  {isLoading ? 'Creating...' : 'Sign Up'}
                 </button>
                 {error && (
-                  <p style={{ color: 'red' }} className="p-2">
+                  <p
+                    style={{
+                      color: error.includes('already exists') ? 'red' : 'green',
+                    }}
+                    className="p-2 text-center"
+                  >
                     {error}
                   </p>
                 )}
                 <p className="text-center">
                   Have an account?{' '}
-                  <Link to="/SignIn">
+                  <Link to="/signin">
                     {' '}
                     <span className="text-blue-700  cursor-pointer">
                       Login
