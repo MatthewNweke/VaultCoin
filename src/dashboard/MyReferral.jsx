@@ -1,9 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
 
 const MyReferral = () => {
   const [referralLink, setReferralLink] = useState('https://your-referral-link.com');
   const [copied, setCopied] = useState(false);
+  const [referralData, setReferralData] = useState(null);
+
+  useEffect(() => {
+    const fetchReferralData = async () => {
+      try {
+        const response = await fetch('https://vaultcoin-production.up.railway.app/referral/', {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NzEzODQyLCJpYXQiOjE3MDY2MDU4NDIsImp0aSI6IjhjN2QyNTU5ODZiNDQwNGU4NTQxYTYwYjk1ODIwNWQ4IiwidXNlcl9pZCI6ODksImZpcnN0X25hbWUiOiJNYXR0aGV3IiwiZW1haWwiOiJud2VrZW1hdHRoZXcyNDc4M0BnbWFpbC5jb20iLCJ1c2VyX25hbWUiOiJqb2huX2RvZSIsImlkIjo4OX0.B2nQnPPd4J2lNjE5m9qbanuSKWtKtd1vWQqfJrkT6v4', // Replace with your actual access token
+            'X-CSRFToken': 'tCUFhUh0aiPJhnOl7pWaOrNGNmEkxrCZL8dntu34bUwzfdoZNgdt32ze15JDv92p', // Replace with your actual CSRF token
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.length > 0) {
+            // Assuming only the first referral data is used
+            setReferralData(data[0]);
+          }
+        } else {
+          console.error('Failed to fetch referral data');
+        }
+      } catch (error) {
+        console.error('Error fetching referral data:', error);
+      }
+    };
+
+    fetchReferralData();
+  }, []); // Empty dependency array means this effect will run once when the component mounts
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(referralLink)
@@ -33,12 +63,7 @@ const MyReferral = () => {
           </p>
         </div>
 
-        <div className="flex justify-around items-center gap-3 my-20 max-sm:flex-col">
-          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Email</button>
-          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Facebook</button>
-          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Whatsapp</button>
-          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Telegram</button>
-        </div>
+        {/* ... (existing code for buttons) */}
 
         <div className="mt-4 text-center">
           <input
@@ -54,8 +79,17 @@ const MyReferral = () => {
             {copied ? 'Copied!' : 'Copy Referral Link'}
           </button>
         </div>
+
+        {referralData && (
+          <div className="mt-4">
+            <p>Referral ID: {referralData.id}</p>
+            <p>Referred User: {referralData.referred_user.username}</p>
+            <p>Referral Profit: {referralData.referral_profit}</p>
+            <p>Referral last name: {referralData.referred_user.last_name}</p>
+          </div>
+        )}
       </div>
-      <PricingPlan/>
+      <PricingPlan />
     </div>
   );
 };
