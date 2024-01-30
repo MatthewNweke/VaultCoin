@@ -28,7 +28,7 @@ const Contact = () => {
               placeholder="Message *"
             ></textarea>
           </div>
-          <input type="submit"  className=" w-[100%] rounded p-3 bg-green-500 text-white cursor-pointer" value={"Send a Message"} />
+          <input type="submit"  className=" w-[100%] rounded p-3 bg-blue-700 text-white cursor-pointer" value={"Send a Message"} />
         </form>
       </div>
     </div>

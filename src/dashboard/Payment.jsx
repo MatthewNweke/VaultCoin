@@ -69,7 +69,7 @@ const Payment = () => {
             <button
               onClick={handleCopyLink}
               className={`mt-2 px-4 py-2 ${
-                copied ? 'bg-green-300' : 'bg-green-500'
+                copied ? 'bg-blue-500' : 'bg-blue-700'
               } text-white rounded cursor-pointer w-[100%]`}
             >
               {copied ? 'Copied!' : 'Copy Referral Link'}

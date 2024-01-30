@@ -69,16 +69,16 @@ const FirstPage = () => {
             </div>
 
             <div className="flex justify-around items-center gap-3 my-20 max-xl:flex-col ">
-              <button className="py-3 px-4 w-[25%] bg-green-500 text-white rounded max-xl:w-[100%]">
+              <button className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]">
                 Email
               </button>
-              <button className="py-3 px-4 w-[25%] bg-green-500 text-white rounded max-xl:w-[100%]">
+              <button className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]">
                 Facebook
               </button>
-              <button className="py-3 px-4 w-[25%] bg-green-500 text-white rounded max-xl:w-[100%]">
+              <button className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]">
                 Whatsapp
               </button>
-              <button className="py-3 px-4 w-[25%] bg-green-500 text-white rounded max-xl:w-[100%]">
+              <button className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]">
                 Telegram
               </button>
             </div>
@@ -93,7 +93,7 @@ const FirstPage = () => {
               <button
                 onClick={handleCopyLink}
                 className={`mt-2 px-4 py-2 ${
-                  copied ? 'bg-green-300' : 'bg-green-500'
+                  copied ? 'bg-blue-500' : 'bg-blue-700'
                 } text-white rounded cursor-pointer w-[100%]`}
               >
                 {copied ? 'Copied!' : 'Copy Referral Link'}

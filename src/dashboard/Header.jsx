@@ -12,7 +12,7 @@ const NotificationDropdown = () => {
   ];
 
   return (
-    <div className="absolute top-14 right-0 w-64 p-4 bg-green-500 border rounded shadow">
+    <div className="absolute top-14 right-0 w-64 p-4 bg-blue-700 border rounded shadow">
       <ul>
         {notifications.map((notification) => (
           <li key={notification.id}>{notification.text}</li>
@@ -34,7 +34,7 @@ const Header = () => {
   };
 
   return (
-    <div className="h-[5rem] my-5 px-3 w-[100%] rounded bg-green-500 text-white hidden lg:block relative">
+    <div className="h-[5rem] my-5 px-3 w-[100%] rounded bg-blue-700 text-white hidden lg:block relative">
       <ul className="flex h-[100%] gap-10 items-center justify-around max-2xl:justify-center font-semibold">
         <li className="cursor-pointer">Deposit</li>
         <li className="cursor-pointer">Withdraw</li>

@@ -34,10 +34,10 @@ const MyReferral = () => {
         </div>
 
         <div className="flex justify-around items-center gap-3 my-20 max-sm:flex-col">
-          <button className='py-3 px-4 w-[25%] bg-green-500 text-white rounded max-sm:w-[100%]'>Email</button>
-          <button className='py-3 px-4 w-[25%] bg-green-500 text-white rounded max-sm:w-[100%]'>Facebook</button>
-          <button className='py-3 px-4 w-[25%] bg-green-500 text-white rounded max-sm:w-[100%]'>Whatsapp</button>
-          <button className='py-3 px-4 w-[25%] bg-green-500 text-white rounded max-sm:w-[100%]'>Telegram</button>
+          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Email</button>
+          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Facebook</button>
+          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Whatsapp</button>
+          <button className='py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-sm:w-[100%]'>Telegram</button>
         </div>
 
         <div className="mt-4 text-center">
@@ -49,7 +49,7 @@ const MyReferral = () => {
           />
           <button
             onClick={handleCopyLink}
-            className={`mt-2 px-4 py-2 ${copied ? 'bg-green-300' : 'bg-green-500'} text-white rounded cursor-pointer w-[100%]`}
+            className={`mt-2 px-4 py-2 ${copied ? 'bg-blue-500' : 'bg-blue-700'} text-white rounded cursor-pointer w-[100%]`}
           >
             {copied ? 'Copied!' : 'Copy Referral Link'}
           </button>

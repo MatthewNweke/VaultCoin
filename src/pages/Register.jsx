@@ -66,8 +66,6 @@ const Register = () => {
 
     setIsLoading(true);
 
-    setIsLoading(true);
-
     try {
       const response = await axios.post(
         `${API_URL}/user/auth/create/`,
@@ -90,13 +88,13 @@ const Register = () => {
 
       // Assuming the API response structure is similar to the provided example
       const { access, refresh, user } = response.data;
-
+      
       // Store tokens in localStorage or a secure storage mechanism
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
 
       // Handle user data if needed
-      console.log('User Data:', user);
+      // console.log('User Data:', user);
 
       // Reset the form after successful submission
       setFormData({
@@ -156,6 +154,7 @@ const Register = () => {
   const handleTogglePasswordVisibility2 = () => {
     setShowPassword2((prevShowPassword) => !prevShowPassword);
   };
+  
 
   return (
     <div>

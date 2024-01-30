@@ -10,6 +10,7 @@ import Dashboard from './dashboard/Dashboard';
 import SignIn from './pages/SignIn';
 import MyReferral from './dashboard/MyReferral';
 import Payment from './dashboard/Payment';
+import ForgotPassword from './pages/ForgotPassword';
 
 
 import { useEffect } from 'react';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} /> 
         <Route path="/referral" element={<MyReferral />} />  
         <Route path="/payment" element={<Payment />} />  
+        <Route path="/forgot-password" element={<ForgotPassword />} />  
       </Routes>
     </div>
   );

@@ -1,14 +1,13 @@
 // src/components/Dashboard.js
 
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
 import Sides from '../dashboard/Sides';
 import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import MainContent from '../dashboard/MainContent';
-const Dashboard = () => {
 
+const Dashboard = () => {
   const location = useLocation();
+  const user = location.state?.user;
 
   useEffect(() => {
     document.querySelector('html').style.scrollBehavior = 'auto';
@@ -23,12 +22,10 @@ const Dashboard = () => {
   };
 
   return (
-      
-    
     <div className="flex  overflow-hidden">
-      <Sides onItemSelected={handleItemSelected} />
-
-      <MainContent  selectedItem={selectedItem} />
+      {/* Pass the user prop to the Sides component */}
+      <Sides username={user?.username} onItemSelected={handleItemSelected} />
+      <MainContent selectedItem={selectedItem} />
     </div>
   );
 };

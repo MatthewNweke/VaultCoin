@@ -1,42 +1,41 @@
-import account_icon from '../assets/account_icon.svg';
-import fund_icon from '../assets/fund_icon.svg';
-import trade_icon from '../assets/trade_icon.svg';
+import { useEffect, useState } from 'react';
 import StockStepsCard from './utils/cards/StockStepsCard';
+import { fetchPlans } from './utils/FetchPlans';
 
-const StockSteps = ({ title }) => {
+const StockSteps = () => {
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    const fetchPlansData = async () => {
+      try {
+        const plansData = await fetchPlans();
+        setPlans(plansData);
+      } catch (error) {
+        console.error('Error fetching plans:', error);
+      }
+    };
+
+    fetchPlansData();
+  }, []);
+
   return (
     <div className="">
-      <div className="flex flex-wrap gap-10 my-[4rem] justify-center items-center">
-        <StockStepsCard
-          daily={'For 30 day'}
-          returns={'Return 7%'}
-          title={'DEFI'}
-          total={'Total 210%'}
-          amount={'$50000 - $100000'}
-        />
-        <StockStepsCard
-          daily={'For 10 day'}
-          returns={'Return 2%'}
-          title={'Stocks'}
-          total={'Total 20%'}
-          amount={'$200 - $10000'}
-        />
-        <StockStepsCard
-          daily={'For 30 day'}
-          returns={'Return 3.5%'}
-          title={'Blockchain ETFs'}
-          total={'Total 105%'}
-          amount={'$2000 - $100000'}
-        />
-        <StockStepsCard
-          daily={'For 30 day'}
-          returns={'Return 5%'}
-          title={'NFT'}
-          total={'Total 150%'}
-          amount={'$10000 - $100000'}
-        />
-      </div>
-
+      {plans.length === 0 ? (
+        <p>Loading plans...</p>
+      ) : (
+        <div className="flex flex-wrap gap-10 my-[4rem] justify-center items-center">
+          {plans.map((plan) => (
+            <StockStepsCard
+              key={plan.id}
+              daily={`For ${plan.number_of_days} days`}
+              returns={`Return ${plan.investment_profit_percent}%`}
+              title={plan.category.name}
+              total={`Total ${plan.investment_profit_percent}%`}
+              amount={`$${plan.minimum_amount} - $${plan.maximum_amount}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

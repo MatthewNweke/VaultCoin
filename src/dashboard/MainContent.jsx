@@ -37,7 +37,7 @@ const MainContent = ({ selectedItem }) => {
     Notifications: <Notification />,
     'Contact Support': <Contact/>,
     Logout: "",
-    "ooo":<p className='hidden'>iiii</p>
+    
   };
 
   return (

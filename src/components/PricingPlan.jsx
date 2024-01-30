@@ -22,7 +22,7 @@ const PricingPlan = () => {
   return (
     <div className="flex gap-[5%] flex-wrap justify-center items-center mt-10 max-xl:flex-col max-xl:gap-[10%]">
       <div className="rounded shadow-xl min-h-[100vh] bg-white w-[30%] pb-10 max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%] max-sm:w-[100%]">
-        <div class=" bg-green-500 p-5 rounded-xl before:w-full min-h-[40vh] ">
+        <div class=" bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh] ">
           <p className="text-[1.2rem] font-semibold text-white mb-3">
             Standard
           </p>
@@ -72,7 +72,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/btc.png" alt="" className="w-25 h-20" />
             </div>
@@ -81,7 +81,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/eth.png" alt="" className="w-25 h-20" />
             </div>
@@ -92,7 +92,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/ltc.png" alt="" className="w-25 h-20" />
             </div>
@@ -101,7 +101,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/xrp.png" alt="" className="w-25 h-20" />
             </div>
@@ -112,7 +112,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/usdt.png" alt="" className="w-25 h-20" />
             </div>
@@ -121,7 +121,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/bal.png" alt="" className="w-25 h-20" />
             </div>
@@ -137,7 +137,7 @@ const PricingPlan = () => {
         </Link>
       </div>
       <div className="rounded shadow-xl min-h-[100vh] bg-white w-[30%] pb-10 max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%] max-sm:w-[100%]">
-        <div class=" bg-green-500 p-5 rounded-xl before:w-full min-h-[40vh] ">
+        <div class=" bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh] ">
           <p className="text-[1.2rem] font-semibold text-white mb-3">Legend</p>
           <button className="text-black cursor-auto rounded-xl px-2 py-1">
             Real Estate
@@ -184,7 +184,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/btc.png" alt="" className="w-25 h-20" />
             </div>
@@ -193,7 +193,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/eth.png" alt="" className="w-25 h-20" />
             </div>
@@ -204,7 +204,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/ltc.png" alt="" className="w-25 h-20" />
             </div>
@@ -213,7 +213,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/xrp.png" alt="" className="w-25 h-20" />
             </div>
@@ -224,7 +224,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/usdt.png" alt="" className="w-25 h-20" />
             </div>
@@ -233,7 +233,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/bal.png" alt="" className="w-25 h-20" />
             </div>
@@ -249,7 +249,7 @@ const PricingPlan = () => {
         </div>
       </div>
       <div className="rounded shadow-xl min-h-[100vh] bg-white w-[30%] pb-10 max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%] max-sm:w-[100%]">
-        <div class=" bg-green-500 p-5 rounded-xl before:w-full min-h-[40vh] ">
+        <div class=" bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh] ">
           <p className="text-[1.2rem] font-semibold text-white mb-3">
             Standard
           </p>
@@ -300,7 +300,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/btc.png" alt="" className="w-25 h-20" />
             </div>
@@ -309,7 +309,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/eth.png" alt="" className="w-25 h-20" />
             </div>
@@ -320,7 +320,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/ltc.png" alt="" className="w-25 h-20" />
             </div>
@@ -329,7 +329,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/xrp.png" alt="" className="w-25 h-20" />
             </div>
@@ -340,7 +340,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/usdt.png" alt="" className="w-25 h-20" />
             </div>
@@ -349,7 +349,7 @@ const PricingPlan = () => {
                 type="checkbox"
                 name=""
                 id=""
-                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-green-500 border-black form-checkbox text-white-500 checked:bg-green-500 border-0 checked:border-none"
+                className="absolute -top-1 p-3  left-0 rounded-[50%] bg-blue-700 border-black form-checkbox text-white-500 checked:bg-blue-700 border-0 checked:border-none"
               />
               <img src="/bal.png" alt="" className="w-25 h-20" />
             </div>
