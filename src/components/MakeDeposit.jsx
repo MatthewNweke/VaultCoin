@@ -9,6 +9,7 @@ const MakeDeposit = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,12 +28,17 @@ const MakeDeposit = () => {
             },
           }
         );
-        console.log(response.data.bitcoin_address);
-
+        console.log('Bitcoin Address:', response.data.bitcoin_address);
+        console.log('Ethereum Address:', response.data.etherum_address);
+        console.log('Litecoin Address:', response.data.litecoin_address);
+        console.log('Litecoin Address:', response.data.litecoin_address);
         // Extract the wallet address based on the selected wallet type
+
+        const { bitcoin_address, etherum_address, litecoin_address, xrp_address, usdt_address, bal_address } = response.data;
+
         switch (selectedWallet) {
           case 'btc':
-            setWalletAddress(response.data.bitcoin_address);
+            setWalletAddress(response.data.wallet_type);
             break;
           case 'eth':
             setWalletAddress(response.data.etherum_address);
@@ -53,14 +59,17 @@ const MakeDeposit = () => {
             setWalletAddress('');
         }
       } catch (error) {
-        console.error('Error fetching wallet address:', error.response.data);
+        console.error('Error fetching wallet address:', error.response?.data);
+        setWalletAddress(''); // Clear the wallet address in case of an error
+        setErrorMessage('Error fetching wallet address. Please try again.');
       }
     };
 
     if (selectedWallet) {
       fetchWalletAddress();
     }
-  }, [selectedWallet]); // Run when selectedWallet changes
+  }, [selectedWallet]);
+ // Run when selectedWallet changes
 
   const handleDivClick = (walletType) => {
     setSelectedWallet(walletType === selectedWallet ? null : walletType);
@@ -75,6 +84,11 @@ const MakeDeposit = () => {
     try {
       if (!selectedWallet) {
         setErrorMessage('Please choose a payment method.');
+        return;
+      }
+      if (!enteredAmount || isNaN(enteredAmount) || parseFloat(enteredAmount) <= 0) {
+        setAmountError('Please enter a valid amount.');
+        setLoading(false);
         return;
       }
 
@@ -113,6 +127,9 @@ const MakeDeposit = () => {
       console.error('Deposit failed:', error.response.data);
       setErrorMessage('Deposit failed: ' + error.response.data.message);
       setSuccessMessage('');
+    }
+    finally {
+      setLoading(false); // Set loading to false after the API request completes
     }
   };
 
@@ -222,14 +239,17 @@ const MakeDeposit = () => {
       <button
         className="bg-gradient-to-br text-white relative left-[50%] -translate-x-1/2 from-gray-800 to-gray-900 w-[90%] rounded-lg py-3 px-10"
         onClick={handleDeposit}
+        disabled={loading}
+
       >
-        Make Deposit
+        {loading ? 'Processing...' : 'Make Deposit'}
       </button>
 
       {successMessage && (
         <p className="text-green-500 mt-3">{successMessage}</p>
       )}
       {errorMessage && <p className="text-red-500 mt-3">{errorMessage}</p>}
+    
     </div>
   );
 };
