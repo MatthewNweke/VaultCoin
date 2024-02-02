@@ -1,6 +1,23 @@
 import PricingPlan from '../components/PricingPlan';
+import { useState,useEffect } from 'react';
 
 const Profile = () => {
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
   return (
     <div>
       <div className="text-center rounded h-[8rem] w-[100%] m-0">
@@ -16,35 +33,42 @@ const Profile = () => {
       <div className="bg-white py-10 min-h-[50vh] shadow-xl px-16 justify-between flex items-center gap-[10%] max-lg:flex-col max-lg:px-5">
         <form action="" className="w-[60%] max-lg:w-[100%] shadow-xl">
           <div className=" flex flex-col  gap-2">
-            <label htmlFor="">UserName</label>
+            <label htmlFor="">Username(Not editable):</label>
             <input type="text" className="w-[100%] rounded" />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Email: *</label>
             <input type="email" className="w-[100%] rounded" />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="">Country</label>
+            <label htmlFor="">Country: *</label>
             <select name="" id="" className="w-[100%] rounded cursor-pointer">
-              <option value="">lorem</option>
-              <option value="">lorem</option>
-              <option value="">lorem</option>
+              {countries.map((country) => (
+                <option key={country.cca2} value={country.name.common}>
+                  {country.name.common}
+                </option>
+              ))}
             </select>
           </div>
+
+          <button className='bg-blue-600 rounded my-5 text-white px-8 py-2 mx-2'>Update Contact Information</button>
         </form>
         <form action="" className="w-[30%] max-lg:w-[100%] shadow-xl">
+          <h2 className="my-3 font-semibold text-blue-500">Update Password</h2>
           <div>
-            <label htmlFor="">jiiihehoehor</label>
+            <label htmlFor="">Old Password: *</label>
+            <input type="password" className="w-[100%] rounded" />
+          </div>
+          <div>
+            <label htmlFor="">New Password: *</label>
             <input type="text" className="w-[100%] rounded" />
           </div>
           <div>
-            <label htmlFor="">jiiihehoehor</label>
+            <label htmlFor="">Repeat New Password: *</label>
             <input type="text" className="w-[100%] rounded" />
           </div>
-          <div>
-            <label htmlFor="">jiiihehoehor</label>
-            <input type="text" className="w-[100%] rounded" />
-          </div>
+          
+          <button className='bg-blue-600 rounded my-5 text-white px-8 py-2 mx-2'>Update Password</button>
         </form>
       </div>
       <PricingPlan />

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
 import { API_URL } from '../constants/api';
+import { SyncLoader } from 'react-spinners';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -321,7 +322,11 @@ const Register = () => {
                   disabled={isLoading}
                   className="border-2 border-blue-700 rounded-lg bg-white text-blue-700 px-3 py-2 text-center relative left-1/2 my-10 -translate-x-[50%]"
                 >
-                  {isLoading ? 'Creating...' : 'Sign Up'}
+                  {isLoading ? <SyncLoader
+                  size={10}
+                  color={error ? 'blue' : 'blue'}
+                  loading={true}
+                /> : 'Sign Up'}
                 </button>
                 {error && (
                   <p

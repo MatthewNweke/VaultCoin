@@ -14,7 +14,7 @@ const Table = (props) => {
 
         {selectedOption === 'deposit' ? (
           <>
-            <p className='px-3 font-semibold mb-3'>Latest Deposit</p>
+            <tr className='px-3 font-semibold mb-3'>Latest Deposit</tr>
             {/* <p>pejfpjfpjpfj</p> */}
             <TransactionTable
 
@@ -22,7 +22,7 @@ const Table = (props) => {
           </>
         ) : (
           <>
-            <p className='px-3 font-semibold'>Latest Withdrawal</p>
+            <tr className='px-3 font-semibold'>Latest Withdrawal</tr>
             <TransactionTable
 
             />

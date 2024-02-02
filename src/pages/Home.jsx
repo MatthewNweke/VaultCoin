@@ -9,14 +9,15 @@ import ChooseCard from '../components/utils/ChooseCard';
 import StockCardsContainer from '../components/utils/StockCardsContainer';
 import TableRendering from '../components/utils/cards/TableRedering';
 
-
-
 const Home = () => {
-
   return (
     <MainLayout>
       <div className="relative w-full h-[90vh] ">
-        <img src={bg_fxtrad} alt="" className="w-full h-full object-cover brightness-50" />
+        <img
+          src={bg_fxtrad}
+          alt=""
+          className="w-full h-full object-cover brightness-50"
+        />
         <div className="absolute flex flex-col justify-center  gap-12 top-[5rem] bg-opacity-10 text-white pl-3 lg:pl-5 xl:pl-10 max-md:top-[4rem] max-sm:top-[3rem]">
           <div className="laviossa text-[2.6rem] font-bold w-[30rem] max-lg:text-[2.4rem] max-lg:w-[100%] max-md:text-[2rem]  max-sm:text-[1.5rem] max-sm:m-0">
             Invest for Future in a Stable Platform <br />
@@ -60,8 +61,7 @@ const Home = () => {
       <div className="bg-white py-20 to-opacity-50 flex flex-col items-center gap-16 justify-center text-black">
         <div className="text-center max-sm:px-5">
           <p className="text-[2rem] max-sm:text-[1.5rem]">
-            Why Choose <br />{' '}
-            <span className="text-blue-500  ">VaultCoin</span>{' '}
+            Why Choose <br /> <span className="text-blue-500  ">VaultCoin</span>{' '}
           </p>
           <p className="text-[1rem]">
             Our goal is to provide our investors with a reliable source of high

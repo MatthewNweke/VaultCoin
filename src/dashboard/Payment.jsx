@@ -31,8 +31,8 @@ const Payment = () => {
     <div>
       <div className="bg-white py-10 px-5 shadow-xl min-h-[40vh]">
         <div className="">
-          <img src="/check_img.png" alt="" className="w-[5rem] mx-auto my-0" />
-          <p className="text-center">Deposit Successful</p>
+          {/* <img src="/check_img.png" alt="" className="w-[5rem] mx-auto my-0" />
+          <p className="text-center">Deposit Successful</p> */}
           <div className="flex items-center leading-8 justify-between max-lg:flex-col max-lg:justify-center max-lg:mt-10">
             <div className=" max-lg:text-center max-lg:w-[100%]">
               <p>Transaction </p>

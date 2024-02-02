@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import MainLayout from '../components/MainLayout';
+import { SyncLoader } from 'react-spinners';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,10 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
+      setError('');
+      setShowPopup(true);
+      setPopupMessage('Signing in...');
+
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/user/auth/login/',
         {
@@ -32,7 +37,6 @@ const SignIn = () => {
       );
 
       const { user, token } = response.data;
-        
 
       if (user && token && token.access) {
         console.log('JWT Token:', `Bearer ${token.access}`);
@@ -40,7 +44,6 @@ const SignIn = () => {
           'Authorization'
         ] = `Bearer ${token.access}`;
 
-        setShowPopup(true);
         setPopupMessage('Logged in successfully!');
 
         setTimeout(() => {
@@ -48,23 +51,23 @@ const SignIn = () => {
         }, 3000);
       } else {
         setError('Credentials are invalid.');
-        setShowPopup(true);
         setPopupMessage('Credentials are invalid.');
       }
     } catch (error) {
       setError('Invalid credentials. Please try again.');
-      setShowPopup(true);
       setPopupMessage('Invalid credentials. Please try again.');
+    } finally {
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
     }
   };
 
   useEffect(() => {
-    // Update line width every 100 milliseconds
     const intervalId = setInterval(() => {
       setLineWidth(`${Math.max(lineWidth.slice(0, -1) - 1, 0)}%`);
     }, 100);
 
-    // Clear interval after 3 seconds
     const timeoutId = setTimeout(() => {
       clearInterval(intervalId);
       setShowPopup(false);
@@ -89,15 +92,16 @@ const SignIn = () => {
                     : 'bg-green-200 text-green-900'
                 } p-2 rounded relative overflow-hidden`}
               >
+                
                 <div
                   style={{
                     position: 'absolute',
                     bottom: 0,
                     left: 0,
                     width: lineWidth,
-                    height: '2px', // Height of the line
-                    backgroundColor: error ? 'red' : 'green', // Color of the line
-                    transition: 'width 0.5s ease', // Add transition effect
+                    height: '2px',
+                    backgroundColor: error ? 'red' : 'green',
+                    transition: 'width 0.5s ease',
                   }}
                 />
                 {popupMessage}
@@ -140,16 +144,27 @@ const SignIn = () => {
               />
             </div>
 
-            <button
-              type="submit"
-              className="bg-blue-700 absolute left-1/2 translate-x-[-50%] text-white px-4 py-2 rounded-md hover:bg-green-600"
-            >
-              SignIn
-            </button>
+            {showPopup ? (
+              <button
+                type="button"
+                className="bg-blue-700 absolute left-1/2 translate-x-[-50%] text-white px-4 py-2 rounded-md opacity-50 cursor-not-allowed"
+                disabled
+              >
+                <SyncLoader
+                  size={10}
+                  color={error ? 'white' : 'white'}
+                  loading={true}
+                />
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-700 absolute left-1/2 translate-x-[-50%] text-white px-4 py-2 rounded-md hover:bg-green-600"
+              >
+                SignIn
+              </button>
+            )}
           </form>
-          {/* Show popup based on the state */}
-
-          {/* {error && <p className="text-red-500 text-center mt-20 ">{error}</p>} */}
 
           <Link to="/forgot-password">
             <p className="mt-32 text-right mr-10 ">Forgot Password</p>
