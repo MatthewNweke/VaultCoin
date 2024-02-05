@@ -1,6 +1,8 @@
 import MyReferral from './MyReferral';
 import { useState } from 'react';
 import PricingPlan from '../components/PricingPlan';
+import DepositHistory from './DepositHistory';
+
 const FirstPage = () => {
   const [referralLink, setReferralLink] = useState(
     'https://your-referral-link.com'
@@ -19,10 +21,8 @@ const FirstPage = () => {
       });
   };
 
-  
-
   return (
-    <div className=' py-10 px-5'>
+    <div className=" py-10 px-5">
       <select name="deposit" id="" className="w-[100%] my-5 cursor-pointer">
         <option value="deposit" className="py-5">
           Choose type of deposit
@@ -31,32 +31,10 @@ const FirstPage = () => {
         <option value="deposit">Crypto Minning</option>
       </select>
       <div className="flex justify-between items-center  max-xl:flex-col">
-        <div className="w-[45%] max-xl:w-[100%]">
-          <div className="bg-[#00000020] my-3 rounded h-[5rem] py-8 flex justify-around items-center cursor-pointer hover:bg-[#00000010]  ">
-            <div>
-              <p>Deposit#STPM2398</p>{' '}
-              <p className="text-[0.5rem]">05 Jan 2024 04:27:47 pm</p>
-            </div>
-            <p>$20,000.00</p>
-            <p className=" font-bold">Success</p>
-          </div>
-          <div className="rounded h-[5rem] py-8 flex justify-around items-center cursor-pointer hover:bg-[#00000020]  ">
-            <div>
-              <p>Deposit#STPM2398</p>{' '}
-              <p className="text-[0.5rem]">05 Jan 2024 04:27:47 pm</p>
-            </div>
-            <p>$20,000.00</p>
-            <p className=" font-bold">Success</p>
-          </div>
-          <div className="bg-[#00000020] my-3 rounded h-[5rem] py-8 flex justify-around items-center cursor-pointer hover:bg-[#00000010]  ">
-            <div>
-              <p>Deposit#STPM2398</p>{' '}
-              <p className="text-[0.5rem]">05 Jan 2024 04:27:47 pm</p>
-            </div>
-            <p>$20,000.00</p>
-            <p className=" font-bold">Pending</p>
-          </div>
+        <div className='mt-10'>
+          <DepositHistory />
         </div>
+
         <div className="w-[45%] max-xl:w-[100%]">
           <div className="shadow-xl py-10 px-5">
             <div className="text-center">

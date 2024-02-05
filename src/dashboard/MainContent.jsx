@@ -8,7 +8,7 @@ import MyWallet from './MyWallet';
 import Pricing from './Pricing';
 import Bonus from './Bonus';
 import Transaction from './Transaction';
-import DepositHistory from './Transaction';
+import DepositHistory from './DepositHistory';
 import WithdrawalHistory from './WithdrawalHistory';
 import AllTransfers from './AllTransfers';
 import Profile from './Profile';
