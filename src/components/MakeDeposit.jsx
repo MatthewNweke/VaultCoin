@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MakeDeposit = () => {
@@ -10,6 +10,9 @@ const MakeDeposit = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [depositDate, setDepositDate] = useState('');
+  const [depositTime, setDepositTime] = useState('');
+  
 
   const navigate = useNavigate();
 
@@ -24,21 +27,35 @@ const MakeDeposit = () => {
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
+              Authorization:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MTY0MzMwLCJpYXQiOjE3MDcwNTYzMzAsImp0aSI6ImIyNjA1NTM5NjMzMzQ0MmJiOGUxNjBlMjQyYmJhZjY5IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.2eslGnDaXhLcXyvErsVE3nFswq2_A498ppldboj36NY', // Replace with your actual access token
+              'X-CSRFToken':
+                '2NIq0Wmeqp6nQnWC4AZBrdg1orMHO0j8kj18cw8ir1NdOdwgKrgUGO2zCaR0MIJy',
             },
           }
         );
+
         console.log('Bitcoin Address:', response.data.bitcoin_address);
         console.log('Ethereum Address:', response.data.etherum_address);
         console.log('Litecoin Address:', response.data.litecoin_address);
-        console.log('Litecoin Address:', response.data.litecoin_address);
-        // Extract the wallet address based on the selected wallet type
+        console.log('Xrp Address:', response.data.xrp_address);
+        console.log('Usdt Address:', response.data.usdt_address);
+        console.log('Bal Address:', response.data.bal_address);
 
-        const { bitcoin_address, etherum_address, litecoin_address, xrp_address, usdt_address, bal_address } = response.data;
+        const {
+          bitcoin_address,
+          etherum_address,
+          litecoin_address,
+          xrp_address,
+          usdt_address,
+          bal_address,
+        } = response.data;
+        console.log({ bitcoin_address });
+        console.log({ etherum_address });
 
         switch (selectedWallet) {
           case 'btc':
-            setWalletAddress(response.data.wallet_type);
+            setWalletAddress(response.data.bitcoin_address);
             break;
           case 'eth':
             setWalletAddress(response.data.etherum_address);
@@ -69,7 +86,7 @@ const MakeDeposit = () => {
       fetchWalletAddress();
     }
   }, [selectedWallet]);
- // Run when selectedWallet changes
+  // Run when selectedWallet changes
 
   const handleDivClick = (walletType) => {
     setSelectedWallet(walletType === selectedWallet ? null : walletType);
@@ -86,14 +103,16 @@ const MakeDeposit = () => {
         setErrorMessage('Please choose a payment method.');
         return;
       }
-      if (!enteredAmount || isNaN(enteredAmount) || parseFloat(enteredAmount) <= 0) {
+
+      if (
+        !enteredAmount ||
+        isNaN(enteredAmount) ||
+        parseFloat(enteredAmount) <= 0
+      ) {
         setAmountError('Please enter a valid amount.');
         setLoading(false);
         return;
       }
-
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2OTI3NTQ2LCJpYXQiOjE3MDY4MTk1NDYsImp0aSI6IjdhMGUzNWM0NzE2YjQxMTg4N2FlNTUxMmEwNjgzZGRhIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.MQaJKC_588b74j2N4ao3H56YOKpHEIhhcrhN98jj2Fc'; // Replace with your actual access token
 
       // Make sure there is a valid wallet address
       if (!walletAddress) {
@@ -103,33 +122,71 @@ const MakeDeposit = () => {
         return;
       }
 
+      const token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MTY5OTQ4LCJpYXQiOjE3MDcwNjE5NDgsImp0aSI6ImVkN2MzODZjMjYzMDQxZDRhOTBkYTUyMDA0Y2MyOTM3IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.i-eDwn9O5U5CEUGjO-Cz93wwav_ZuKjK3m3PZK_1dro'; // Replace with your actual access token
+
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/deposit/',
         {
-          amount: enteredAmount,
-          wallet_type: selectedWallet,
+          amount: enteredAmount.toString(),
+          wallet_type: 'USDT',
           wallet_address: walletAddress,
-          usdt_amount: enteredAmount, // Assuming enteredAmount is also the USDT amount
+          usdt_amount: '',
         },
         {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
+            'X-CSRFToken':
+              ' JGTUPWnrOfyhgc28YA70IXAUSlWY3C5I1ccC1w9vPRf7e2CMErojXyms641h1kv8', // Replace with your actual CSRF token
           },
         }
       );
 
       setSuccessMessage('Deposit successful: ' + response.data.message);
       setErrorMessage('');
-      // Use navigate to redirect to '/payment' on successful deposit
-      navigate('/payment');
+
+      const currentDate = new Date();
+      console.log(currentDate);
+      
+      setDepositDate(currentDate.toLocaleDateString());
+      setDepositTime(currentDate.toLocaleTimeString());
+      console.log(currentDate.toLocaleTimeString());
+      
+      // Set wallet address
+    console.log(setWalletAddress(response.data.wallet_address))  
+
+      navigate('/payment', { state: { amount: enteredAmount, date: depositDate, time: depositTime, walletAddress: response.data.wallet_address } });
+    
+
     } catch (error) {
-      console.error('Deposit failed:', error.response.data);
-      setErrorMessage('Deposit failed: ' + error.response.data.message);
-      setSuccessMessage('');
-    }
-    finally {
-      setLoading(false); // Set loading to false after the API request completes
+      console.error('Deposit failed:', error);
+
+      if (error.response) {
+        if (error.response.status === 400) {
+          // Handle 400 Bad Request errors
+          console.error('Bad Request:', error.response.data);
+          setErrorMessage(
+            `Deposit failed: ${error.response.data.message || 'Unknown error'}`
+          );
+        } else {
+          // Handle other types of errors
+          console.error('Server responded with:', error.response.data);
+          setErrorMessage(
+            `Deposit failed: ${error.response.data.message || 'Unknown error'}`
+          );
+        }
+      } else if (error.request) {
+        // Handle request errors
+        console.error('No response received. Request details:', error.request);
+        setErrorMessage('No response received from the server.');
+      } else {
+        // Handle other errors
+        console.error('Error setting up the request:', error.message);
+        setErrorMessage('Error setting up the request. Please try again.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -240,16 +297,16 @@ const MakeDeposit = () => {
         className="bg-gradient-to-br text-white relative left-[50%] -translate-x-1/2 from-gray-800 to-gray-900 w-[90%] rounded-lg py-3 px-10"
         onClick={handleDeposit}
         disabled={loading}
-
       >
         {loading ? 'Processing...' : 'Make Deposit'}
       </button>
 
-      {successMessage && (
-        <p className="text-green-500 mt-3">{successMessage}</p>
-      )}
-      {errorMessage && <p className="text-red-500 mt-3">{errorMessage}</p>}
-    
+      <div className="ml-5">
+        {successMessage && (
+          <p className="text-green-500 mt-3 px-5">{successMessage}</p>
+        )}
+        {errorMessage && <p className="text-red-500 mt-3">{errorMessage}</p>}
+      </div>
     </div>
   );
 };

@@ -18,7 +18,6 @@ const PricingPlan = () => {
   };
   const handleAmountChange2 = (event) => {
     setEnteredAmount2(event.target.value);
-    setAmountError2('');
   };
   const handleAmountChange3 = (event) => {
     setEnteredAmount3(event.target.value);
