@@ -1,19 +1,58 @@
+import React, { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
 
 const AllTransfers = () => {
+ 
+  const [transfers, setTransfers] = useState([]);
+
+  useEffect(() => {
+    // Function to fetch transfer data
+    const fetchTransfers = async () => {
+      try {
+        // Make GET request to API endpoint
+        const response = await fetch('https://vaultcoin-production.up.railway.app/transfer/', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+           Authentication:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
+            'X-CSRFToken':
+              'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS',
+          }
+        });
+
+        // Check if request was successful
+        if (response.ok) {
+          // Parse response JSON
+          const data = await response.json();
+          // Set transfer data to state
+          setTransfers(data);
+        } else {
+          // Handle error response
+          console.error('Failed to fetch transfers:', response.statusText);
+        }
+      } catch (error) {
+        // Handle fetch error
+        console.error('Error fetching transfers:', error);
+      }
+    };
+
+    // Call fetchTransfers function
+    fetchTransfers();
+  }, []); // Run effect only once on component mount
+
   return (
     <div className=''>
-      <div className=" rounded h-[8rem] pt-10 w-[100%] m-0 text-center">
+      <div className="rounded h-[8rem] pt-10 w-[100%] m-0 text-center">
         <p className="px-3 py-5 font-semibold text-[1.2rem]">
           History
         </p>
       </div>
       <div className="px-3 bg-white relative bottom-6 h-[8rem] w-[90%] translate-x-[-50%] left-1/2 m-0 rounded shadow-lg">
-        <p className="px-3 py-5 border-b-[1px] border-[#00000010] mb-2 font-semibold text-[1.2rem] ">
-        All Transfers
+        <p className="px-3 py-5 border-b-[1px] border-[#00000010] mb-2 font-semibold text-[1.2rem]">
+          All Transfers
         </p>
       </div>
-      <PricingPlan />
+      <PricingPlan transfers={transfers} />
     </div>
   );
 };

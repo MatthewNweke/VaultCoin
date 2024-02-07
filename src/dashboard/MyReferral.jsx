@@ -13,8 +13,8 @@ const MyReferral = () => {
           method: 'GET',
           headers: {
             'accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NzEzODQyLCJpYXQiOjE3MDY2MDU4NDIsImp0aSI6IjhjN2QyNTU5ODZiNDQwNGU4NTQxYTYwYjk1ODIwNWQ4IiwidXNlcl9pZCI6ODksImZpcnN0X25hbWUiOiJNYXR0aGV3IiwiZW1haWwiOiJud2VrZW1hdHRoZXcyNDc4M0BnbWFpbC5jb20iLCJ1c2VyX25hbWUiOiJqb2huX2RvZSIsImlkIjo4OX0.B2nQnPPd4J2lNjE5m9qbanuSKWtKtd1vWQqfJrkT6v4', // Replace with your actual access token
-            'X-CSRFToken': 'tCUFhUh0aiPJhnOl7pWaOrNGNmEkxrCZL8dntu34bUwzfdoZNgdt32ze15JDv92p', // Replace with your actual CSRF token
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzM2NDAwLCJpYXQiOjE3MDcyMjg0MDAsImp0aSI6ImQxMzIxMjhhZjVlMzRlNWNhZGI5MTg1ZDdjMDlhNTJmIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.OGtFRc5j9gV629sI1IeWNJSKmdk-lwe4EkCIWScPjrY',
+            'X-CSRFToken': 'v0Ve5Dq9yTPj2WvenHnxrORyxnS1Py3INweWhdcdzvw90M5S3yEQGpD6L6XkNgt8'
           },
         });
 

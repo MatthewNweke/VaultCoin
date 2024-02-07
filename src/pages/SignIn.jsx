@@ -79,11 +79,17 @@ const SignIn = () => {
     };
   }, [lineWidth]);
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
+
   return (
     <div>
       <MainLayout>
-        <div className="relative h-[100vh] left-[50%] top-[10rem]  -translate-x-1/2 max-lg:px-5">
-          <div className='w-[50%] max-sm:w-[100%] mx-auto my-5'>
+        <div className="relative h-[100vh] left-[50%] flex flex-col justify-center w-[100%] -translate-x-1/2 max-lg:px-5">
+          <div className="w-[50%] max-sm:w-[100%] mx-auto my-5">
             {showPopup && (
               <div
                 className={`text-center mt-4 ${
@@ -92,7 +98,6 @@ const SignIn = () => {
                     : 'bg-green-200 text-green-900'
                 } p-2 rounded relative overflow-hidden`}
               >
-                
                 <div
                   style={{
                     position: 'absolute',
@@ -112,8 +117,11 @@ const SignIn = () => {
             SignIn
           </h2>
 
-          <form className="max-w-md mx-auto relative" onSubmit={handleSignIn}>
-            <div className="mb-4">
+          <form
+            className="max-w-md mx-auto relative w-[100%]"
+            onSubmit={handleSignIn}
+          >
+            <div className="mb-4 w-[100%]">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-600"
@@ -125,7 +133,7 @@ const SignIn = () => {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 p-2 w-full border rounded-md"
+                className="mt-1 p-2 bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
               />
             </div>
             <div className="mb-4">
@@ -136,12 +144,19 @@ const SignIn = () => {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 p-2 w-full border rounded-md"
+                className="mt-1 p-2 bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
               />
+              <button
+                type="button"
+                onClick={handleTogglePasswordVisibility}
+                className=" cursor-pointer  absolute bottom-7  right-3"
+              >
+                {showPassword ? <span>👁️</span> : <span>🔒</span>}
+              </button>
             </div>
 
             {showPopup ? (

@@ -1,15 +1,55 @@
 import React, { useState, useEffect } from 'react';
 
-
 const NotificationDropdown = () => {
-  // Implement your notification dropdown content here
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(
+          'https://vaultcoin-production.up.railway.app/notification/',
+          {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
+              'X-CSRFToken':
+                'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS', // Replace with your actual CSRF token
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+        } else {
+          console.error('Failed to fetch notifications');
+        }
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    // Call the fetchNotifications function
+    fetchNotifications();
+  }, []); // Empty dependency array means this effect will run once when the component mounts
+
   return (
-    <div className="absolute top-full right-0 mt-2 w-48 bg-blue-700 py-5 px-3 text-white  border rounded-md shadow-lg overflow-hidden z-10">
-      <p>Notification 1</p>
-      <p>Notification 2</p>
-      <p>Notification 3</p>
-      <p>Notification 4</p>
-      <p>Notification 5</p>
+    <div className="absolute max-h-[100vh] overflow-x-hidden overflow-auto right-0 mt-2 w-[50vw] bg-blue-700 py-5 px-3 text-white  border rounded-md shadow-lg z-10 max-sm:w-[70vw]">
+      <div className=" shadow-xl rounded px-5 py-10">
+        <p className="py-10">All Notifications</p>
+1
+        {notifications.map((notification, index) => (
+          <div
+            key={index}
+            className="border border-[#00000020] hover:text-green-500 border-x-0 p-5 cursor-pointer"
+          >
+            <p>{notification.description}</p>
+            <p className="text-[0.7rem]">{notification.created}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
@@ -19,8 +59,6 @@ const Sides = ({ username, onItemSelected }) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
   
- 
-
 
   const sidebarItems = [
     'Dashboard',
@@ -38,8 +76,23 @@ const Sides = ({ username, onItemSelected }) => {
     'My Referral',
     'Notifications',
     'Contact Support',
-    <button className='bg-[transparent] text-black border-none mb-5'>Logout</button>
+    <button className="bg-[transparent] text-black border-none mb-5">
+      Logout
+    </button>,
   ];
+
+
+  const handleLogout = () => {
+    // Clear authentication tokens stored in cookies
+    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    // Redirect or perform any other action after logout
+    console.log("Logged out successfully");
+    // For example, you can redirect to the login page
+    window.location.href = '/signin'; // Replace '/login' with the actual URL of your login page
+  };
+
+  
 
   return (
     <div
@@ -74,23 +127,28 @@ const Sides = ({ username, onItemSelected }) => {
         } font-semibold overflow-hidden text-black overflow-y-auto pb-20 h-screen fixed w-full my-4 ml-4 rounded-tr-none rounded-br-none rounded-xl duration-300 transition-transform bg-white lg:translate-x-0 lg:static max-xl:w-[15rem] `}
       >
         <p className="p-10 font-semibold text-xl text-center">
-          Welcome back <br />{' '}
-          <span className="text-blue-500">
-            {username}
-          </span>
+          Welcome back <br /> <span className="text-blue-500">{username}</span>
         </p>
         <nav>
           <ul className=" flex  w-full  items-center flex-col justify-center gap-8">
             {sidebarItems.map((item, index) => (
               <li
-                className="font-normal w-full text-center transition-colors hover:bg-blue-700 cursor-pointer  py-2 hover:text-white"
+                className="font-normal w-[80%] text-center transition-colors hover:bg-blue-700 cursor-pointer  py-2 hover:text-white"
                 key={index}
                 onClick={() => {
-                  onItemSelected(item);
+                  if (typeof item === 'string') {
+                    onItemSelected(item);
+                  } else {
+                    handleLogout(); // Handle logout when the logout button is clicked
+                  }
                   setMobileMenu(false);
                 }}
               >
-                {item}
+                {typeof item === 'string' ? item : (
+                  <button className="bg-transparent text-black border-none mb-5" onClick={handleLogout}>
+                    Logout
+                  </button>
+                )}
               </li>
             ))}
           </ul>

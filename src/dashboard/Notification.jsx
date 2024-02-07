@@ -5,7 +5,6 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Function to fetch notifications
     const fetchNotifications = async () => {
       try {
         const response = await fetch(
@@ -15,9 +14,9 @@ const Notification = () => {
             headers: {
               accept: 'application/json',
               Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2NzEyMDM1LCJpYXQiOjE3MDY2MDQwMzUsImp0aSI6IjIzMTYxMDhkMjg1OTQ2MjlhYmRiNTllZWE5NGNiNTljIiwidXNlcl9pZCI6ODksImZpcnN0X25hbWUiOiJNYXR0aGV3IiwiZW1haWwiOiJud2VrZW1hdHRoZXcyNDc4M0BnbWFpbC5jb20iLCJ1c2VyX25hbWUiOiJqb2huX2RvZSIsImlkIjo4OX0.C2-KTUBO6_DrB74Wj3V7x7E0KGXmZ7gGseaT9JPrEfg', // Replace with your actual access token
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
               'X-CSRFToken':
-                'tCUFhUh0aiPJhnOl7pWaOrNGNmEkxrCZL8dntu34bUwzfdoZNgdt32ze15JDv92p', // Replace with your actual CSRF token
+                'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS', // Replace with your actual CSRF token
             },
           }
         );
@@ -39,7 +38,7 @@ const Notification = () => {
 
   return (
     <div>
-      <div className="min-h-[500px] shadow-xl rounded px-5 py-10">
+      <div className=" shadow-xl rounded px-5 py-10">
         <p className="py-10">All Notifications</p>
 
         {notifications.map((notification, index) => (
@@ -47,9 +46,8 @@ const Notification = () => {
             key={index}
             className="border border-[#00000020] hover:text-green-500 border-x-0 p-5 cursor-pointer"
           >
-            <p>{notification.title}</p>
-            <p>{notification.message}</p>
-            <p className="text-[0.7rem]">{notification.timestamp}</p>
+            <p>{notification.description}</p>
+            <p className="text-[0.7rem]">{notification.created}</p>
           </div>
         ))}
       </div>

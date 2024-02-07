@@ -302,7 +302,7 @@ const Register = () => {
                   name="is_active"
                   checked={formData.is_active}
                   onChange={handleInputChange}
-                  required
+                  
                 />
                 <p>
                   I agree with{' '}

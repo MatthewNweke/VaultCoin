@@ -2,14 +2,8 @@ import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MakeDeposit from './MakeDeposit';
 
-const PricingPlan = () => {
+const PricingPlan = ({ bonusData }) => {
   const [enteredAmount1, setEnteredAmount1] = useState('');
-  const [enteredAmount2, setEnteredAmount2] = useState('');
-  const [enteredAmount3, setEnteredAmount3] = useState('');
-  const [amountError1, setAmountError1] = useState('');
-  const [amountError2, setAmountError2] = useState('');
-  const [amountError3, setAmountError3] = useState('');
-  const [selectedDiv, setSelectedDiv] = useState(null);
   const [selectedWallet, setSelectedWallet] = useState(null);
 
   const handleAmountChange1 = (event) => {
@@ -40,9 +34,9 @@ const PricingPlan = () => {
 
   return (
     <div className="flex gap-[5%] flex-wrap justify-center items-center mt-10 max-xl:flex-col max-xl:gap-[10%]">
-      <MakeDeposit />
-      <MakeDeposit />
-      <MakeDeposit />
+     <MakeDeposit/>
+     <MakeDeposit/>
+     <MakeDeposit/>
     </div>
   );
 };

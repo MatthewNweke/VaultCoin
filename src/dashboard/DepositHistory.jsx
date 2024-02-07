@@ -10,9 +10,12 @@ const DepositHistory = () => {
         const response = await fetch('https://vaultcoin-production.up.railway.app/deposit/', {
           method: 'GET',
           headers: {
+            
             'Accept': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MjM4MzIxLCJpYXQiOjE3MDcxMzAzMjEsImp0aSI6ImRkMjk5NTcxMjU4MDRkMDhiM2JkNTI1N2E1NWY5YWMwIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.kqXz-mjRxXY6rVQe40x7HQb1rEZOcem4JpKWXkC2Suw', // Replace with your access token
-            'X-CSRFToken': 'v724mW9C06L1LbIh9nPncvVotQPqjuq6NDlMywVG1IsRJ1iVPe6Gr6HWHzUJhcQw', // Replace with your CSRF token
+            Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
+          'X-CSRFToken':
+            'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS'
           },
         });
 
