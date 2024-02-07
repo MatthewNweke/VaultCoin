@@ -39,14 +39,14 @@ const Notification = () => {
   return (
     <div>
       <div className=" shadow-xl rounded px-5 py-10">
-        <p className="py-10">All Notifications</p>
+        <p className="py-10 px-5 font-semibold text-2xl">All Notifications</p>
 
         {notifications.map((notification, index) => (
           <div
             key={index}
             className="border border-[#00000020] hover:text-green-500 border-x-0 p-5 cursor-pointer"
           >
-            <p>{notification.description}</p>
+            <p className=''>{notification.description}</p>
             <p className="text-[0.7rem]">{notification.created}</p>
           </div>
         ))}

@@ -292,7 +292,6 @@ const Register = () => {
                   name="referral_code"
                   value={formData.referral_code}
                   onChange={handleInputChange}
-                  required
                   className=" bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
                 />
               </div>

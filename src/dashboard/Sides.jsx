@@ -38,8 +38,8 @@ const NotificationDropdown = () => {
   return (
     <div className="absolute max-h-[100vh] overflow-x-hidden overflow-auto right-0 mt-2 w-[50vw] bg-blue-700 py-5 px-3 text-white  border rounded-md shadow-lg z-10 max-sm:w-[70vw]">
       <div className=" shadow-xl rounded px-5 py-10">
-        <p className="py-10">All Notifications</p>
-1
+        <p className="py-10 text-center font-semibold text-2xl">All Notifications</p>
+
         {notifications.map((notification, index) => (
           <div
             key={index}
