@@ -7,15 +7,19 @@ const Withdrawal = () => {
   const handleAddWalletClick = (e) => {
     e.preventDefault();
     setShowModal(true);
+    // Disable scrolling when modal is opened
+    document.body.style.overflow = 'hidden';
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+    // Enable scrolling when modal is closed
+    document.body.style.overflow = 'auto';
   };
 
   return (
-    <div>
-      <div className="shadow-xl py-5 px-5">
+    <div className="">
+      <div className="shadow-xl py-5 px-5 max-lg:mt-10">
         <p className="text-xl my-5">Make Withdrawal</p>
         <form action="">
           <label htmlFor="">Enter Amount *</label>
@@ -34,7 +38,7 @@ const Withdrawal = () => {
         </form>
       </div>
       <PricingPlan />
-      
+
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -43,12 +47,22 @@ const Withdrawal = () => {
             className="fixed inset-0 bg-black opacity-50"
             onClick={handleCloseModal}
           ></div>
-          <div className="fixed  transform flex justify-center items-center top-[10rem] w-[50%] bg-white rounded-lg p-8 z-60">
-            <div className='w-[100%]'>Modal Content Goes Here</div>
-            <button className="text-blue-500" onClick={handleCloseModal}>
+          <form
+            action=""
+            className="fixed  transform shadow-lg top-[20rem] w-[80%] bg-white rounded-lg p-8 z-60"
+          >
+           <select name="" id="" className='w-[100%] rounded'>
+            <option value="">Bitcoin</option>
+            <option value="">Ethereum</option>
+            <option value="">Litecoin</option>
+            <option value="">Ripple(XRP)</option>
+            <option value="">Tether(Usdt)</option>
+            <option value="">Account Balance</option>
+           </select>
+            <button className="text-blue-500 mt-5" onClick={handleCloseModal}>
               Close
             </button>
-          </div>
+          </form>
         </div>
       )}
     </div>
