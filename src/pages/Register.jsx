@@ -249,6 +249,16 @@ const Register = () => {
                   className="bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
                 />
               </div>
+              {passwordError && (
+                <p style={{ color: 'red' }} className="p-2 text-center">
+                  {passwordError}
+                </p>
+              )}
+              <p className='font-bold'>
+                  Password must be at least 8 characters long and include at
+                  least one uppercase letter, one lowercase letter, one digit,
+                  and one special character.
+                </p>
               <div className="flex flex-col gap-4 mb-5 relative w-[100%]">
                 <label htmlFor="password">Password</label>
                 <input
@@ -267,11 +277,6 @@ const Register = () => {
                   {showPassword1 ? <span>👁️</span> : <span>🔒</span>}
                 </button>
               </div>
-              {passwordError && (
-                <p style={{ color: 'red' }} className="p-2 text-center">
-                  {passwordError}
-                </p>
-              )}
               <div className="flex flex-col gap-4 mb-5 relative w-[100%]">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <input
@@ -282,7 +287,6 @@ const Register = () => {
                   name="confirmPassword"
                   className="bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700 bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
                 />
-
                 <button
                   type="button"
                   onClick={handleTogglePasswordVisibility2}
