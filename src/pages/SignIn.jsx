@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import MainLayout from '../components/MainLayout';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { SyncLoader } from 'react-spinners';
+import MainLayout from '../components/MainLayout';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -174,7 +173,7 @@ const SignIn = () => {
             ) : (
               <button
                 type="submit"
-                className="bg-blue-700 absolute left-1/2 translate-x-[-50%] text-white px-4 py-2 rounded-md hover:bg-green-600"
+                className="bg-blue-700 absolute left-1/2 translate-x-[-50%] text-white px-4 py-2 rounded-md hover:bg-blue-500"
               >
                 SignIn
               </button>

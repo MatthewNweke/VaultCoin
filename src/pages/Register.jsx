@@ -79,7 +79,7 @@ const Register = () => {
           last_name: formData.last_name,
           username: formData.username,
           is_active: formData.is_active,
-          referral_code: formData.referral_code,
+          // referral_code:"",
           country: formData.country,
         },
         {
@@ -108,7 +108,7 @@ const Register = () => {
         last_name: '',
         username: '',
         is_active: false,
-        referral_code: '',
+        // referral_code: '',
         country: '',
       });
 
