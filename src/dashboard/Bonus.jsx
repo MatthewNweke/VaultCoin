@@ -15,7 +15,7 @@ const Bonus = () => {
           headers: {
             'Accept': 'application/json',
             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzM2NDAwLCJpYXQiOjE3MDcyMjg0MDAsImp0aSI6ImQxMzIxMjhhZjVlMzRlNWNhZGI5MTg1ZDdjMDlhNTJmIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.OGtFRc5j9gV629sI1IeWNJSKmdk-lwe4EkCIWScPjrY',
-            'X-CSRFToken': 'v0Ve5Dq9yTPj2WvenHnxrORyxnS1Py3INweWhdcdzvw90M5S3yEQGpD6L6XkNgt8'
+            'X-CSRFToken': '65XKnQB4K8OJoyQUDGiT3e2f8M2kRK7PoBgszqn8LKvzmoqyjxzciPONmv7DPsxf'
           }
         });
 

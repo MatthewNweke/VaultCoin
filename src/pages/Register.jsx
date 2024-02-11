@@ -298,13 +298,13 @@ const Register = () => {
 
               <div className="flex flex-col gap-4 mb-5  w-[100%]">
                 <label htmlFor="referral_code"></label>
-                <input
-                  placeholder="Enter code"
+                <input 
+                  placeholder="Enter code (optional)"
                   type="text"
                   name="referral_code"
                   value={formData.referral_code}
                   onChange={handleInputChange}
-                  className="bg-gray-100 border-2 border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
+                  className="bg-gray-100 border-2  border-solid border-gray-200 focus:border-blue-700  bg-[transparent]  outline-none rounded-lg px-2 py-3 w-[100%]"
                 />
               </div>
               <div className="flex items-center gap-3 ">

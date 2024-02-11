@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AUTH_TOKEN, CSRF_TOKEN } from '../dashboard/config';
 
 const MakeDeposit = () => {
   const [enteredAmount, setEnteredAmount] = useState('');
@@ -12,25 +13,19 @@ const MakeDeposit = () => {
   const [loading, setLoading] = useState(false);
   const [depositDate, setDepositDate] = useState('');
   const [depositTime, setDepositTime] = useState('');
-  
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWalletAddress = async () => {
       try {
-        const token =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2OTI3NTQ2LCJpYXQiOjE3MDY4MTk1NDYsImp0aSI6IjdhMGUzNWM0NzE2YjQxMTg4N2FlNTUxMmEwNjgzZGRhIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.MQaJKC_588b74j2N4ao3H56YOKpHEIhhcrhN98jj2Fc'; // Replace with your actual access token
-
         const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/walletaddress/',
           {
             headers: {
               'Content-Type': 'application/json',
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MTY0MzMwLCJpYXQiOjE3MDcwNTYzMzAsImp0aSI6ImIyNjA1NTM5NjMzMzQ0MmJiOGUxNjBlMjQyYmJhZjY5IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.2eslGnDaXhLcXyvErsVE3nFswq2_A498ppldboj36NY', // Replace with your actual access token
-              'X-CSRFToken':
-                '2NIq0Wmeqp6nQnWC4AZBrdg1orMHO0j8kj18cw8ir1NdOdwgKrgUGO2zCaR0MIJy',
+              Authorization: AUTH_TOKEN,
+              'X-CSRFToken': CSRF_TOKEN,
             },
           }
         );
@@ -98,6 +93,7 @@ const MakeDeposit = () => {
   };
 
   const handleDeposit = async () => {
+    setLoading(true); 
     try {
       if (!selectedWallet) {
         setErrorMessage('Please choose a payment method.');
@@ -122,8 +118,7 @@ const MakeDeposit = () => {
         return;
       }
 
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MTY5OTQ4LCJpYXQiOjE3MDcwNjE5NDgsImp0aSI6ImVkN2MzODZjMjYzMDQxZDRhOTBkYTUyMDA0Y2MyOTM3IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.i-eDwn9O5U5CEUGjO-Cz93wwav_ZuKjK3m3PZK_1dro'; // Replace with your actual access token
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/deposit/',
@@ -136,9 +131,8 @@ const MakeDeposit = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-            'X-CSRFToken':
-              ' JGTUPWnrOfyhgc28YA70IXAUSlWY3C5I1ccC1w9vPRf7e2CMErojXyms641h1kv8', // Replace with your actual CSRF token
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN,
           },
         }
       );
@@ -148,17 +142,22 @@ const MakeDeposit = () => {
 
       const currentDate = new Date();
       console.log(currentDate);
-      
+
       setDepositDate(currentDate.toLocaleDateString());
       setDepositTime(currentDate.toLocaleTimeString());
       console.log(currentDate.toLocaleTimeString());
-      
+
       // Set wallet address
-    console.log(setWalletAddress(response.data.wallet_address))  
+      console.log(setWalletAddress(response.data.wallet_address));
 
-      navigate('/payment', { state: { amount: enteredAmount, date: depositDate, time: depositTime, walletAddress: response.data.wallet_address } });
-    
-
+      navigate('/payment', {
+        state: {
+          amount: enteredAmount,
+          date: depositDate,
+          time: depositTime,
+          walletAddress: response.data.wallet_address,
+        },
+      });
     } catch (error) {
       console.error('Deposit failed:', error);
 
@@ -298,9 +297,15 @@ const MakeDeposit = () => {
         onClick={handleDeposit}
         disabled={loading}
       >
-        {loading ? 'Processing...' : 'Make Deposit'}
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+            <span className="ml-2">Processing...</span>
+          </div>
+        ) : (
+          'Make Deposit'
+        )}
       </button>
-
       <div className="ml-5">
         {successMessage && (
           <p className="text-green-500 mt-3 px-5">{successMessage}</p>

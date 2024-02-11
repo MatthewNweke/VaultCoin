@@ -41,7 +41,7 @@ const MainContent = ({ selectedItem }) => {
   };
 
   return (
-    <main className=" px-3 overflow-hidden w-[75%] translate-x-[-50%] relative left-[50%] my-0 mx-auto max-lg:w-[100%] max-md:px-1 max-lg:mt-10">
+    <main className=" px-3 overflow-hidden w-[80%] translate-x-[-50%]  relative left-[50%] my-0 mx-auto max-lg:w-[100%] max-md:px-1 max-lg:mt-10 max-2xl:w-[75%]">
       <Header />
 
       {contentMap[selectedItem] || <FirstPage/>}

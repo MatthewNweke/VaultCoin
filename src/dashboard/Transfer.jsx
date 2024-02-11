@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PricingPlan from '../components/PricingPlan';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const Transfer = () => {
   // State to manage form inputs
   const [receiverUsername, setReceiverUsername] = useState('');
   const [amount, setAmount] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null); // State to store error message
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -19,10 +21,8 @@ const Transfer = () => {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
-            'X-CSRFToken':
-              'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS',
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN,
           },
           body: JSON.stringify({
             email: receiverUsername,
@@ -36,13 +36,23 @@ const Transfer = () => {
         // Handle success
         console.log('Transfer successful');
         // You can optionally reset form inputs here
+        setErrorMessage(null); // Clear error message if previous transfer attempt had an error
       } else {
         // Handle error response
-        console.error('Failed to make transfer:', response.statusText);
+        const errorData = await response.json();
+        if (errorData.message === 'You have insufficient funds') {
+          setErrorMessage('You have insufficient funds'); // Set specific error message for insufficient funds
+        } else {
+          setErrorMessage(errorData.message); // Set error message received from the backend
+        }
       }
+
+      console.log(response);
     } catch (error) {
       // Handle fetch error
       console.error('Error making transfer:', error);
+      console.log(errorMessage);
+      setErrorMessage('Failed to make transfer. Please try again later.');
     }
   };
 
@@ -52,6 +62,8 @@ const Transfer = () => {
         <p className="px-3 py-5 border-b-[1px] border-[#00000010] mb-2 font-semibold text-[1.2rem]">
           Transfer Request
         </p>
+        {/* Display error message if it exists */}
+
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="receiverUsername">Enter Receiver Username: *</label>
@@ -71,13 +83,19 @@ const Transfer = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-
           <button
             type="submit"
             className="cursor-pointer mt-5 py-3 w-[100%] bg-gradient-to-br from-gray-800 to-gray-900 text-white font-semibold rounded"
           >
             Make Transfer
           </button>
+
+         
+         <div>
+          ivrrihgirihirrrrw
+         </div>
+            {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+          
         </form>
       </div>
       <PricingPlan />

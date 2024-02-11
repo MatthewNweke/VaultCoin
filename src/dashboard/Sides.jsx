@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const NotificationDropdown = () => {
   const [notifications, setNotifications] = useState([]);
@@ -12,10 +13,8 @@ const NotificationDropdown = () => {
             method: 'GET',
             headers: {
               accept: 'application/json',
-              Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
-              'X-CSRFToken':
-                'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS', // Replace with your actual CSRF token
+              Authorization: AUTH_TOKEN,
+              'X-CSRFToken': CSRF_TOKEN,
             },
           }
         );
@@ -38,7 +37,9 @@ const NotificationDropdown = () => {
   return (
     <div className="absolute max-h-[100vh] overflow-x-hidden overflow-auto right-0 mt-2 w-[50vw] bg-blue-700 py-5 px-3 text-white  border rounded-md shadow-lg z-10 max-sm:w-[70vw]">
       <div className=" shadow-xl rounded px-5 py-10">
-        <p className="py-10 text-center font-semibold text-2xl">All Notifications</p>
+        <p className="py-10 text-center font-semibold text-2xl">
+          All Notifications
+        </p>
 
         {notifications.map((notification, index) => (
           <div
@@ -57,8 +58,6 @@ const NotificationDropdown = () => {
 const Sides = ({ username, onItemSelected }) => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-
-  
 
   const sidebarItems = [
     'Dashboard',
@@ -81,18 +80,17 @@ const Sides = ({ username, onItemSelected }) => {
     </button>,
   ];
 
-
   const handleLogout = () => {
     // Clear authentication tokens stored in cookies
-    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie =
+      'csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // Redirect or perform any other action after logout
-    console.log("Logged out successfully");
+    console.log('Logged out successfully');
     // For example, you can redirect to the login page
     window.location.href = '/signin'; // Replace '/login' with the actual URL of your login page
   };
-
-  
 
   return (
     <div
@@ -124,10 +122,13 @@ const Sides = ({ username, onItemSelected }) => {
           mobileMenu
             ? 'translate-x-0 shadow-xl'
             : '-translate-x-full max-lg:overflow-y-hidden shadow-none'
-        } font-semibold overflow-hidden text-black overflow-y-auto pb-20 h-screen fixed w-full my-4 ml-4 rounded-tr-none rounded-br-none rounded-xl duration-300 transition-transform bg-white lg:translate-x-0 lg:static max-xl:w-[15rem] `}
+        } font-semibold overflow-hidden  text-black overflow-y-auto pb-20 h-screen fixed w-full my-4 ml-4 rounded-tr-none rounded-br-none rounded-xl duration-300 transition-transform bg-white lg:translate-x-0 lg:static max-xl:w-[15rem] `}
       >
+        <div className='shadow-xl'>
+          <img src="/FxLogo.png" className="" width={200} height={50} alt="" />
+        </div>
         <p className="p-10 font-semibold text-xl text-center">
-          Welcome back <br /> <span className="text-blue-500">{username}</span>
+          Welcome back <br /> <span className="text-blue-500 text-2xl font-bold">{username}</span>
         </p>
         <nav>
           <ul className=" flex  w-full  items-center flex-col justify-center gap-8">
@@ -144,8 +145,13 @@ const Sides = ({ username, onItemSelected }) => {
                   setMobileMenu(false);
                 }}
               >
-                {typeof item === 'string' ? item : (
-                  <button className="bg-transparent text-black border-none mb-5" onClick={handleLogout}>
+                {typeof item === 'string' ? (
+                  item
+                ) : (
+                  <button
+                    className="bg-transparent text-black border-none mb-5"
+                    onClick={handleLogout}
+                  >
                     Logout
                   </button>
                 )}

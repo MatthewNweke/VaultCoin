@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -13,10 +14,8 @@ const Notification = () => {
             method: 'GET',
             headers: {
               accept: 'application/json',
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
-              'X-CSRFToken':
-                'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS', // Replace with your actual CSRF token
+              Authorization: AUTH_TOKEN,
+              'X-CSRFToken': CSRF_TOKEN,
             },
           }
         );
@@ -46,7 +45,7 @@ const Notification = () => {
             key={index}
             className="border border-[#00000020] hover:text-green-500 border-x-0 p-5 cursor-pointer"
           >
-            <p className=''>{notification.description}</p>
+            <p className="">{notification.description}</p>
             <p className="text-[0.7rem]">{notification.created}</p>
           </div>
         ))}

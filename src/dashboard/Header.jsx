@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const NotificationDropdown = ({ notifications }) => {
   return (
@@ -21,9 +22,9 @@ const Header = () => {
     fetch('https://vaultcoin-production.up.railway.app/notification/', {
       method: 'GET',
       headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MjQyNDQyLCJpYXQiOjE3MDcxMzQ0NDIsImp0aSI6Ijc3NmUyNGFmYWYzOTQwY2E4YjE2MmNkNmYxNGE5Mzg0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.O_e52GfvKEyxDhOBGG-LJ2jQAw0VYTsqvjvKuISxXoc', // Replace with your actual access token
-        'X-CSRFToken': 'v724mW9C06L1LbIh9nPncvVotQPqjuq6NDlMywVG1IsRJ1iVPe6Gr6HWHzUJhcQw', // Replace with actual CSRF token
+        Accept: 'application/json',
+        Authorization: AUTH_TOKEN,
+        'X-CSRFToken': CSRF_TOKEN
       },
     })
       .then((response) => response.json())
@@ -42,7 +43,7 @@ const Header = () => {
   return (
     <div className="h-[5rem] my-5 px-3 w-[100%] rounded bg-blue-700 text-white hidden lg:block relative">
       <ul className="flex h-[100%] gap-10  items-center  justify-around max-2xl:justify-center font-semibold">
-      <li className="cursor-pointer">Deposit</li>
+        <li className="cursor-pointer">Deposit</li>
         <li className="cursor-pointer">Withdraw</li>
         <li className="cursor-pointer">Wallet</li>
         <li className="cursor-pointer">History</li>
@@ -50,7 +51,9 @@ const Header = () => {
         <li className="cursor-pointer">Support</li>
         <li className="cursor-pointer relative" onClick={toggleDropdown}>
           <img src="/notification_bell.svg" alt="" />
-          {isDropdownVisible && <NotificationDropdown notifications={notifications} />}
+          {isDropdownVisible && (
+            <NotificationDropdown notifications={notifications} />
+          )}
         </li>
       </ul>
       {isDropdownVisible && (

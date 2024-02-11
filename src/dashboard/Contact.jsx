@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config'
 
 const Contact = () => {
   const [subject, setSubject] = useState('');
@@ -15,8 +16,8 @@ const Contact = () => {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzM2NDAwLCJpYXQiOjE3MDcyMjg0MDAsImp0aSI6ImQxMzIxMjhhZjVlMzRlNWNhZGI5MTg1ZDdjMDlhNTJmIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.OGtFRc5j9gV629sI1IeWNJSKmdk-lwe4EkCIWScPjrY',
-          'X-CSRFToken': 'v0Ve5Dq9yTPj2WvenHnxrORyxnS1Py3INweWhdcdzvw90M5S3yEQGpD6L6XkNgt8'
+          'Authorization': AUTH_TOKEN,
+          'X-CSRFToken': CSRF_TOKEN
         },
         body: JSON.stringify({
           subject: subject,
