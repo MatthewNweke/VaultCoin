@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import PricingPlan from '../components/PricingPlan';
-import axios from 'axios';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const Withdrawal = () => {
   const [showModal, setShowModal] = useState(false);
   const [walletAdded, setWalletAdded] = useState(false);
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
+  const [usdtAmount, setUsdtAmount] = useState('');
   const [walletType, setWalletType] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [walletTypeError, setWalletTypeError] = useState(false);
@@ -15,37 +15,17 @@ const Withdrawal = () => {
   const handleAddWalletClick = (e) => {
     e.preventDefault();
     setShowModal(true);
+    // Disable scrolling when modal is opened
     document.body.style.overflow = 'hidden';
   };
 
-  const handleWalletAdded = async (e) => {
+  const handleWalletAdded = (e) => {
     e.preventDefault();
     if (walletType && walletAddress) {
-      try {
-        
-        const response = await axios.post(
-          'https://vaultcoin-production.up.railway.app/withdraw/',
-          {
-            amount: withdrawalAmount,
-            wallet_type: walletType,
-            wallet_address: walletAddress,
-            usdt_amount: withdrawalAmount // Assuming usdt_amount is same as withdrawalAmount
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN
-            }
-          }
-        );
-        console.log('Wallet Added:', response.data);
-        setWalletAdded(true);
-        setShowModal(false);
-        document.body.style.overflow = 'auto';
-      } catch (error) {
-        console.error('Error adding wallet:', error);
-      }
+      setWalletAdded(true);
+      setShowModal(false); // Close the modal after adding wallet
+      // Enable scrolling when modal is closed
+      document.body.style.overflow = 'auto';
     } else {
       if (!walletType) setWalletTypeError(true);
       if (!walletAddress) setWalletAddressError(true);
@@ -54,17 +34,47 @@ const Withdrawal = () => {
 
   const handleCancel = () => {
     setShowModal(false);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = 'auto'; // Enable scrolling when modal is closed
   };
 
   const handleWithdrawalClick = () => {
     setWithdrawalAmount('');
+    setUsdtAmount('');
   };
 
-  const handleWithdrawalSubmit = (e) => {
+  const handleWithdrawalSubmit = async (e) => {
     e.preventDefault();
-    console.log('Withdrawal amount:', withdrawalAmount);
-    setWithdrawalAmount('');
+    try {
+      const response = await fetch('https://vaultcoin-production.up.railway.app/withdraw/', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: AUTH_TOKEN,
+          'X-CSRFToken': CSRF_TOKEN,
+        },
+        body: JSON.stringify({
+          amount: parseFloat(withdrawalAmount), // Convert to float if needed
+          wallet_type: walletType,
+          wallet_address: walletAddress,
+          usdt_amount: usdtAmount.toString()
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+      
+      // Handle success
+      console.log('Withdrawal successful');
+    } catch (error) {
+      console.error('Withdrawal error:', error.message);
+      // Handle error
+    } finally {
+      setWithdrawalAmount('');
+      setUsdtAmount('');
+    }
   };
 
   return (
@@ -80,6 +90,16 @@ const Withdrawal = () => {
                 className="w-[100%] py-2 rounded h-[3rem]"
                 value={withdrawalAmount}
                 onChange={(e) => setWithdrawalAmount(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="">USDT Amount</label>
+              <input
+                type="text"
+                className="w-[100%] py-2 rounded h-[3rem]"
+                value={usdtAmount}
+                onChange={(e) => setUsdtAmount(e.target.value)}
+                required
               />
             </div>
             <div className="flex justify-center">
@@ -107,6 +127,7 @@ const Withdrawal = () => {
 
       {showModal && (
         <div className=" flex justify-center relative bottom-[30rem]  z-50">
+          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={handleWalletAdded}
@@ -123,17 +144,17 @@ const Withdrawal = () => {
               value={walletType}
               onChange={(e) => {
                 setWalletType(e.target.value);
-                setWalletTypeError(false);
+                setWalletTypeError(false); // Reset error state
               }}
               className="w-[100%] rounded"
             >
               <option value="">Select Wallet Type</option>
               <option value="BTC">BTC</option>
-              <option value="ETH ">ETH </option>
+              <option value="ETH">ETH</option>
               <option value="LTC">LTC</option>
               <option value="XRP">XRP</option>
               <option value="USDT">USDT</option>
-              {/* <option value="Account Balance">Account Balance</option> */}
+              <option value="Account Balance">Account Balance</option>
             </select>
             {walletTypeError && (
               <p className="text-red-500 text-sm mt-1">Please select a wallet type</p>
@@ -147,7 +168,7 @@ const Withdrawal = () => {
                 value={walletAddress}
                 onChange={(e) => {
                   setWalletAddress(e.target.value);
-                  setWalletAddressError(false);
+                  setWalletAddressError(false); // Reset error state
                 }}
                 className="w-[100%] rounded"
               />
