@@ -37,6 +37,7 @@ const PricingPlan = ({ bonusData }) => {
      <MakeDeposit/>
      <MakeDeposit/>
      <MakeDeposit/>
+     
     </div>
   );
 };

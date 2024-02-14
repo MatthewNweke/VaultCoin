@@ -13,35 +13,10 @@ const MakeDeposit = () => {
   const [loading, setLoading] = useState(false);
   const [depositDate, setDepositDate] = useState('');
   const [depositTime, setDepositTime] = useState('');
-  const [plans, setPlans] = useState([]);
-  const [categories, setCategories] = useState([]);
+ 
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'https://vaultcoin-production.up.railway.app/plans/',
-          {
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN
-            },
-          }
-        );
-
-        setPlans(response.data.plans);
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error('Error fetching plans:', error.response?.data);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const fetchWalletAddress = async () => {
@@ -120,7 +95,7 @@ const MakeDeposit = () => {
   };
 
   const handleDeposit = async () => {
-    setLoading(true);
+    setLoading(true); 
     try {
       if (!selectedWallet) {
         setErrorMessage('Please choose a payment method.');
@@ -145,7 +120,7 @@ const MakeDeposit = () => {
         return;
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise(resolve => setTimeout(resolve, 5000));
 
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/deposit/',
@@ -216,28 +191,33 @@ const MakeDeposit = () => {
     }
   };
 
+  
   return (
     <div className="rounded shadow-xl min-h-[100vh] bg-white w-[30%] pb-10 max-xl:w-[60%] max-lg:w-[70%] max-md:w-[80%] max-sm:w-[100%]">
-      {plans.map(plan => (
-        <div key={plan.id}>
-          <div className="bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh]">
-            <p className="text-[1.2rem] font-semibold text-white mb-3">{plan.name}</p>
-            <button className="text-black cursor-auto rounded-xl px-2 py-1">
-              {plan.category === 1 ? "Real Estate" : "Other Category"}
-            </button>
-          </div>
+     <div className="bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh]">
+        <p className="text-[1.2rem] font-semibold text-white mb-3">Standard</p>
+        <button className="text-black cursor-auto rounded-xl px-2 py-1">
+          Real Estate
+        </button>
+      </div>
 
-          <div className="flex justify-between p-5 items-center">
-            <ul className="leading-10">
-              <li>Min Deposit: ${plan.minimum_amount}</li>
-              <li>Max Deposit: ${plan.maximum_amount}</li>
-              <li>Daily Profit: {plan.investment_profit_percent}%</li>
-              <li>Referral Bonus: {plan.referral_profit_percent}%</li>
-              <li>Duration: {plan.number_of_days} Day(s)</li>
-            </ul>
-          </div>
-        </div>
-      ))}
+
+      <div className="flex justify-between p-5 items-center">
+      <ul className="leading-10">
+        <li>Min Deposit</li>
+        <li>Max Deposit</li>
+        <li>Daily Profit</li>
+        <li>Referral Bonus</li>
+        <li>Duration</li>
+      </ul>
+      <ul className="leading-10">
+        <li>100000</li>
+        <li>50000000</li>
+        <li>12345</li>
+        <li>34567</li>
+        <li>10days</li>
+      </ul>
+    </div>
 
 
       <form action="" className="px-5">
