@@ -7,6 +7,7 @@ const Transfer = () => {
   const [receiverUsername, setReceiverUsername] = useState('');
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState(null); // State to store error message
+  const [responseMessage, setResponseMessage] = useState(null); // State to store response message
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
@@ -34,25 +35,22 @@ const Transfer = () => {
       // Check if request was successful
       if (response.ok) {
         // Handle success
-        console.log('Transfer successful');
-        // You can optionally reset form inputs here
+        const responseData = await response.json();
+        setResponseMessage(responseData.message); // Set response message
         setErrorMessage(null); // Clear error message if previous transfer attempt had an error
       } else {
         // Handle error response
         const errorData = await response.json();
-        if (errorData.message === 'You have insufficient funds') {
-          setErrorMessage('You have insufficient funds'); // Set specific error message for insufficient funds
-        } else {
-          setErrorMessage(errorData.message); // Set error message received from the backend
-        }
+        setResponseMessage(null); // Clear response message if there was an error
+        setErrorMessage(errorData.message); // Set error message received from the backend
       }
 
       console.log(response);
     } catch (error) {
       // Handle fetch error
       console.error('Error making transfer:', error);
-      console.log(errorMessage);
       setErrorMessage('Failed to make transfer. Please try again later.');
+      setResponseMessage(null); // Clear response message if there was an error
     }
   };
 
@@ -60,9 +58,8 @@ const Transfer = () => {
     <div>
       <div className="px-3 bg-white relative bottom-6 shadow-xl h-[25rem] w-[90%] translate-x-[-50%] left-1/2 m-0 rounded">
         <p className="px-3 py-5 border-b-[1px] border-[#00000010] mb-2 font-semibold text-[1.2rem]">
-          Transfer Request
+          Transfer 
         </p>
-        {/* Display error message if it exists */}
 
         <form onSubmit={handleSubmit}>
           <div>
@@ -90,12 +87,9 @@ const Transfer = () => {
             Make Transfer
           </button>
 
-         
-         <div>
-          ivrrihgirihirrrrw
-         </div>
-            {errorMessage && <div className="text-red-500">{errorMessage}</div>}
-          
+          {/* Display response message or error message if they exist */}
+          {responseMessage && <div className="text-green-500">{responseMessage}</div>}
+          {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         </form>
       </div>
       <PricingPlan />

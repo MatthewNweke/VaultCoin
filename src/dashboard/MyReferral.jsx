@@ -3,26 +3,21 @@ import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const MyReferral = () => {
-  const [referralLink, setReferralLink] = useState(
-    'https://your-referral-link.com'
-  );
+  const [referralLink, setReferralLink] = useState('https://your-referral-link.com');
   const [copied, setCopied] = useState(false);
   const [referralData, setReferralData] = useState(null);
 
   useEffect(() => {
     const fetchReferralData = async () => {
       try {
-        const response = await fetch(
-          'https://vaultcoin-production.up.railway.app/referral/',
-          {
-            method: 'GET',
-            headers: {
-              accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
-            },
-          }
-        );
+        const response = await fetch('https://vaultcoin-production.up.railway.app/referral/', {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN,
+          },
+        });
 
         if (response.ok) {
           const data = await response.json();
@@ -39,7 +34,13 @@ const MyReferral = () => {
     };
 
     fetchReferralData();
-  }, []); // Empty dependency array means this effect will run once when the component mounts
+  }, []); 
+
+  useEffect(() => {
+    if (referralData && referralData.referred_user) {
+      setReferralLink(`https://my-referral-link.com?username=${referralData.referred_user.username}-${referralData.id}`);
+    }
+  }, [referralData]);
 
   const handleCopyLink = () => {
     navigator.clipboard
@@ -69,8 +70,6 @@ const MyReferral = () => {
             on our referral program is dependent on the deposit plans.
           </p>
         </div>
-
-        {/* ... (existing code for buttons) */}
 
         <div className="mt-4 text-center">
           <input

@@ -1,42 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
-const NotificationDropdown = () => {
-  const [notifications, setNotifications] = useState([]);
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await fetch(
-          'https://vaultcoin-production.up.railway.app/notification/',
-          {
-            method: 'GET',
-            headers: {
-              accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setNotifications(data.notifications);
-        } else {
-          console.error('Failed to fetch notifications');
-        }
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-      }
-    };
-
-    // Call the fetchNotifications function
-    fetchNotifications();
-  }, []); // Empty dependency array means this effect will run once when the component mounts
-
+const NotificationDropdown = ({ notifications }) => {
   return (
-    <div className="absolute max-h-[100vh] overflow-x-hidden overflow-auto right-0 mt-2 w-[50vw] bg-blue-700 py-5 px-3 text-white  border rounded-md shadow-lg z-10 max-sm:w-[70vw]">
-      <div className=" shadow-xl rounded px-5 py-10">
+    <div className="absolute max-h-[100vh] overflow-x-hidden overflow-auto right-0 mt-2 w-[50vw] bg-blue-700 py-5 px-3 text-white border rounded-md shadow-lg z-10 max-sm:w-[70vw]">
+      <div className="shadow-xl rounded px-5 py-10">
         <p className="py-10 text-center font-semibold text-2xl">
           All Notifications
         </p>
@@ -58,6 +26,8 @@ const NotificationDropdown = () => {
 const Sides = ({ username, onItemSelected }) => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationsCount, setNotificationsCount] = useState(0);
 
   const sidebarItems = [
     'Dashboard',
@@ -80,41 +50,67 @@ const Sides = ({ username, onItemSelected }) => {
     </button>,
   ];
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch(
+          'https://vaultcoin-production.up.railway.app/notification/',
+          {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization: AUTH_TOKEN,
+              'X-CSRFToken': CSRF_TOKEN,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications);
+          setNotificationsCount(data.notifications.length);
+        } else {
+          console.error('Failed to fetch notifications');
+        }
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
   const handleLogout = () => {
-    // Clear authentication tokens stored in cookies
     document.cookie =
       'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie =
       'csrftoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    // Redirect or perform any other action after logout
     console.log('Logged out successfully');
-    // For example, you can redirect to the login page
-    window.location.href = '/signin'; // Replace '/login' with the actual URL of your login page
+    window.location.href = '/signin';
   };
 
   return (
-    <div
-      className={`fixed top-0 w-72 max-lg:w-56  ${
-        mobileMenu ? 'z-50 w-0' : 'z-50'
-      }`}
-    >
-      <div
-        className={`bg-blue-700 items-center z-50 flex justify-between pr-10  max-lg:w-[100vw] inset-0 py-2 lg:hidden ${
-          mobileMenu ? 'z-50' : ''
-        }`}
-      >
+    <div className={`fixed top-0 w-72 max-lg:w-56  ${mobileMenu ? 'z-50 w-0' : 'z-50'}`}>
+      <div className={`bg-blue-700 items-center z-50 flex justify-between pr-10  max-lg:w-[100vw] inset-0 py-2 lg:hidden ${mobileMenu ? 'z-50' : ''}`}>
         <button
           onClick={() => setMobileMenu(!mobileMenu)}
           className="lg:hidden text-2xl block border rounded border-black p-3 relative left-3"
         >
-          &#9776;
+          <span role="img" aria-label="menu">&#9776;</span>
         </button>
         <li
           className="cursor-pointer relative bottom-2"
           onClick={() => setShowNotifications(!showNotifications)}
         >
           <img src="/notification_bell.svg" alt="" />
-          {showNotifications && <NotificationDropdown />}
+          {notificationsCount > 0 && (
+            <span className="bg-red-500 absolute bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notificationsCount}</span>
+          )}
+          {showNotifications && (
+            <NotificationDropdown
+              notifications={notifications}
+            />
+          )}
         </li>
       </div>
       <aside
@@ -140,7 +136,7 @@ const Sides = ({ username, onItemSelected }) => {
                   if (typeof item === 'string') {
                     onItemSelected(item);
                   } else {
-                    handleLogout(); // Handle logout when the logout button is clicked
+                    handleLogout();
                   }
                   setMobileMenu(false);
                 }}

@@ -131,13 +131,13 @@ const FirstPage = () => {
 
   return (
     <div className=" py-10 px-5">
-      <select name="deposit" id="" className="w-[100%] my-5 cursor-pointer">
+      {/* <select name="deposit" id="" className="w-[100%] my-5 cursor-pointer">
         <option value="deposit" className="py-5">
           Choose type of deposit
         </option>
         <option value="deposit">Real estate</option>
         <option value="deposit">Crypto Minning</option>
-      </select>
+      </select> */}
       <div className="flex justify-between  items-center  max-xl:flex-col">
         <div className="w-[45%] my-2 max-xl:w-[90%] max-sm:w-[100%]">
           {deposits.map((deposit) => (

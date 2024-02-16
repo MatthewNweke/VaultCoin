@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
+import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const AllTransfers = () => {
  
@@ -13,10 +14,9 @@ const AllTransfers = () => {
         const response = await fetch('https://vaultcoin-production.up.railway.app/transfer/', {
           method: 'GET',
           headers: {
-            'Accept': 'application/json',
-           Authentication:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3MzYyNTE0LCJpYXQiOjE3MDcyNTQ1MTQsImp0aSI6ImJmMTg2ZTViZTljMjRkNTI4MjZmZjkzNzBmMDY4NjA0IiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.CO66prJSZkbdSdEAVQkSwAtGODAj_GDj1XzZa0wTZzk', // Replace with your actual access token
-            'X-CSRFToken':
-              'SRG8HzbflT8HUpSvUtCVwAskcDohXxssanZQT9XjmvPxSfs9AkTeLbeSqmtAVfSS',
+            accept: 'application/json',
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN
           }
         });
 

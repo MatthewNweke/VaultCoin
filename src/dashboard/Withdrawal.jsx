@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
@@ -12,6 +12,37 @@ const Withdrawal = () => {
   const [walletTypeError, setWalletTypeError] = useState(false);
   const [walletAddressError, setWalletAddressError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [withdrawalHistory, setWithdrawalHistory] = useState([]);
+
+  useEffect(() => {
+    // Fetch withdrawal history when component mounts
+    fetchWithdrawalHistory();
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  const fetchWithdrawalHistory = async () => {
+    try {
+      const response = await fetch(
+        'https://vaultcoin-production.up.railway.app/withdraw/user/withdraw/completed',
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch withdrawal history');
+      }
+
+      const data = await response.json();
+      setWithdrawalHistory(data.withdraws);
+    } catch (error) {
+      console.error('Error fetching withdrawal history:', error.message);
+    }
+  };
 
   const handleAddWalletClick = (e) => {
     e.preventDefault();
@@ -104,7 +135,7 @@ const Withdrawal = () => {
                 required
               />
             </div>
-            <div className='text-center my-5'>
+            <div className="text-center my-5">
               {errorMessage && (
                 <p className="text-red-500 mt-2">{errorMessage}</p>
               )}{' '}
@@ -131,6 +162,22 @@ const Withdrawal = () => {
           </div>
         )}
       </div>
+
+      {withdrawalHistory.length > 0 && (
+        <div className="mt-5">
+          <p className="text-lg font-semibold mb-3">Completed Withdrawals</p>
+          <ul>
+            {withdrawalHistory.map((withdrawal, index) => (
+              <li key={index}>
+                Withdrawal Amount: {withdrawal.amount}, Wallet Type:{' '}
+                {withdrawal.wallet_type}, Wallet Address:{' '}
+                {withdrawal.wallet_address}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <PricingPlan />
 
       {showModal && (

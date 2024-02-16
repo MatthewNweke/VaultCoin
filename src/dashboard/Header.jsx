@@ -51,6 +51,7 @@ const Header = () => {
         <li className="cursor-pointer">Support</li>
         <li className="cursor-pointer relative" onClick={toggleDropdown}>
           <img src="/notification_bell.svg" alt="" />
+          {notifications.length > 0 && <span className="bg-red-500 absolute bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notifications.length}</span>}
           {isDropdownVisible && (
             <NotificationDropdown notifications={notifications} />
           )}
