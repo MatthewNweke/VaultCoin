@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
@@ -11,6 +11,7 @@ const Withdrawal = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [walletTypeError, setWalletTypeError] = useState(false);
   const [walletAddressError, setWalletAddressError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddWalletClick = (e) => {
     e.preventDefault();
@@ -34,46 +35,47 @@ const Withdrawal = () => {
 
   const handleCancel = () => {
     setShowModal(false);
-    document.body.style.overflow = 'auto'; // Enable scrolling when modal is closed
+    document.body.style.overflow = 'auto';
   };
 
-  const handleWithdrawalClick = () => {
-    setWithdrawalAmount('');
-    setUsdtAmount('');
-  };
-
-  const handleWithdrawalSubmit = async (e) => {
+  const handleWithdrawalClick = (e) => {
     e.preventDefault();
+    handleWithdrawalSubmit();
+  };
+
+  const handleWithdrawalSubmit = async () => {
     try {
-      const response = await fetch('https://vaultcoin-production.up.railway.app/withdraw/', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: AUTH_TOKEN,
-          'X-CSRFToken': CSRF_TOKEN,
-        },
-        body: JSON.stringify({
-          amount: parseFloat(withdrawalAmount), // Convert to float if needed
-          wallet_type: walletType,
-          wallet_address: walletAddress,
-          usdt_amount: usdtAmount.toString()
-        })
-      });
-      
+      const response = await fetch(
+        'https://vaultcoin-production.up.railway.app/withdraw/',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: AUTH_TOKEN,
+            'X-CSRFToken': CSRF_TOKEN,
+          },
+          body: JSON.stringify({
+            amount: parseFloat(withdrawalAmount),
+            wallet_type: walletType,
+            wallet_address: walletAddress,
+            usdt_amount: parseFloat(usdtAmount),
+          }),
+        }
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message);
+        throw new Error(errorData.UsdtAmount); // throw the error message
       }
-      
+
       // Handle success
       console.log('Withdrawal successful');
     } catch (error) {
       console.error('Withdrawal error:', error.message);
-      // Handle error
+      setErrorMessage(error.message); // Set the error message state
     } finally {
-      setWithdrawalAmount('');
-      setUsdtAmount('');
+      // No need to clear the fields here
     }
   };
 
@@ -101,6 +103,12 @@ const Withdrawal = () => {
                 onChange={(e) => setUsdtAmount(e.target.value)}
                 required
               />
+            </div>
+            <div className='text-center my-5'>
+              {errorMessage && (
+                <p className="text-red-500 mt-2">{errorMessage}</p>
+              )}{' '}
+              {/* Render error message */}
             </div>
             <div className="flex justify-center">
               <button
@@ -157,9 +165,11 @@ const Withdrawal = () => {
               <option value="Account Balance">Account Balance</option>
             </select>
             {walletTypeError && (
-              <p className="text-red-500 text-sm mt-1">Please select a wallet type</p>
+              <p className="text-red-500 text-sm mt-1">
+                Please select a wallet type
+              </p>
             )}
-            <div className='mt-10'>
+            <div className="mt-10">
               <p className="text-center my-3 font-semibold">
                 Enter Your Wallet Address *
               </p>
@@ -173,13 +183,25 @@ const Withdrawal = () => {
                 className="w-[100%] rounded"
               />
               {walletAddressError && (
-                <p className="text-red-500 text-sm mt-1">Please enter your wallet address</p>
+                <p className="text-red-500 text-sm mt-1">
+                  Please enter your wallet address
+                </p>
               )}
             </div>
 
-            <div className='flex justify-between m-10'>
-              <button className='border-blue-500 border-2 rounded px-4 py-2' onClick={handleWalletAdded}>Add Wallet</button>
-              <button className='border-blue-500 rounded border-2  px-4 py-2'onClick={handleCancel}>Cancel</button>
+            <div className="flex justify-between m-10">
+              <button
+                className="border-blue-500 border-2 rounded px-4 py-2"
+                onClick={handleWalletAdded}
+              >
+                Add Wallet
+              </button>
+              <button
+                className="border-blue-500 rounded border-2  px-4 py-2"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
             </div>
           </form>
         </div>

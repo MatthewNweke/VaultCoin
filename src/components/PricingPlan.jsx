@@ -35,8 +35,6 @@ const PricingPlan = ({ bonusData }) => {
   return (
     <div className="flex gap-[5%] flex-wrap justify-center items-center mt-10 max-xl:flex-col max-xl:gap-[10%]">
      <MakeDeposit/>
-     <MakeDeposit/>
-     <MakeDeposit/>
      
     </div>
   );

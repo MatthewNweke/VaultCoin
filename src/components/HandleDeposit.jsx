@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN, CSRF_TOKEN } from '../dashboard/config';
-import HandleDeposit from './HandleDeposit';
 
-const MakeDeposit = () => {
+
+const HandleDeposit = () => {
   const [enteredAmount, setEnteredAmount] = useState('');
   const [usdtAmount, setUsdtAmount] = useState('');
   const [amountError, setAmountError] = useState('');
@@ -225,41 +225,100 @@ const MakeDeposit = () => {
   };
 
   return (
-    <div className="rounded shadow-xl min-h-[100vh] gap-3 flex w-[90%]  bg-white pb-10 max-lg:flex-wrap max-lg:w-[80%] max-sm:w-[100%]">
-      {plans.map((plan) => (
-        <div key={plan.id} className=" w-[100%] mx-auto my-0">
-          <div className="bg-blue-700 p-5 rounded-xl before:w-full min-h-[40vh]">
-            <p className="text-[1.2rem] font-semibold text-white mb-3">
-              {plan.name}
-            </p>
-            <button className="text-black cursor-auto rounded-xl px-2 py-1">
-              {plan.category}
-            </button>
-          </div>
+    <div>
+      <form action="" className="px-5">
+        <label htmlFor="" className="text-center mb-3 block font-semibold">
+          Enter Amount: <span className="text-[#F25961]">*</span>
+        </label>
+        <input
+          type="number"
+          className="w-[100%]"
+          placeholder="0000.00"
+          value={enteredAmount}
+          onChange={handleAmountChange}
+        />
 
-          <div className="flex justify-between p-5 items-center">
-            <ul className="leading-10 w-[100%] px-5">
-              <li className='flex w-[100%] justify-between'><span>Min Deposit:</span> <span>${plan.minimum_amount}</span></li>
-              <li className='flex w-[100%] justify-between'><span>Max Deposit:</span> <span> ${plan.maximum_amount}</span></li>
-              <li className='flex w-[100%] justify-between'><span>Daily Profit:</span> <span> {plan.investment_profit_percent}%</span></li>
-              <li className='flex w-[100%] justify-between'><span>Referral Bonus:</span> <span> {plan.referral_profit_percent}%</span></li>
-              <li className='flex w-[100%] justify-between'><span>Duration:</span> <span> {plan.number_of_days} Day(s)</span></li>
-            </ul>
-          </div>
-
-          <HandleDeposit/>
-        
-         
-        </div>
-      ))}
-      <div className="ml-5">
-        {successMessage && (
-          <p className="text-green-500 mt-3 px-5">{successMessage}</p>
+        {amountError && (
+          <p className="text-red-500 text-sm mt-1">{amountError}</p>
         )}
-        {errorMessage && <p className="text-red-500 mt-3">{errorMessage}</p>}
+        <label htmlFor="" className="mt-5 text-center block font-semibold">
+          Choose payment method
+        </label>
+      </form>
+
+      <div>
+        <div className="flex justify-between p-5 gap-10">
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'btc' ? 'border-[3px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('btc')}
+          >
+            <img src="/btc.png" alt="" className="w-25 h-20" />
+          </div>
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'eth' ? 'border-[3px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('eth')}
+          >
+            <img src="/eth.png" alt="" className="w-25 h-20" />
+          </div>
+        </div>
+        <div className="flex justify-between p-5 gap-10">
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'ltc' ? 'border-[3px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('ltc')}
+          >
+            <img src="/ltc.png" alt="" className="w-25 h-20" />
+          </div>
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'xrp' ? 'border-[2px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('xrp')}
+          >
+            <img src="/xrp.png" alt="" className="w-25 h-20" />
+          </div>
+        </div>
+        <div className="flex justify-between p-5 gap-10">
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'usdt' ? 'border-[2px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('usdt')}
+          >
+            <img src="/usdt.png" alt="" className="w-25 h-20" />
+          </div>
+          <div
+            className={`border-black border-[1px] p-5 rounded-lg cursor-pointer relative ${
+              selectedWallet === 'bal' ? 'border-[3px] border-blue-500' : ''
+            }`}
+            onClick={() => handleDivClick('bal')}
+          >
+            <img src="/bal.png" alt="" className="w-25 h-20" />
+          </div>
+        </div>
       </div>
+
+      <button
+        className="bg-gradient-to-br text-white relative left-[50%] -translate-x-1/2 from-gray-800 to-gray-900 w-[90%] rounded-lg py-3 px-10"
+        onClick={handleDeposit}
+        disabled={loading}
+      >
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <div className="w-6 h-6 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+            <span className="ml-2">Processing...</span>
+          </div>
+        ) : (
+          'Make Deposit'
+        )}
+      </button>
     </div>
   );
 };
 
-export default MakeDeposit;
+export default HandleDeposit;
