@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const MyReferral = () => {
-  const [referralLink, setReferralLink] = useState('https://your-referral-link.com');
+  const [referralLink, setReferralLink] = useState(
+    'https://your-referral-link.com'
+  );
   const [copied, setCopied] = useState(false);
   const [referralData, setReferralData] = useState(null);
 
   useEffect(() => {
     const fetchReferralData = async () => {
       try {
-        const response = await fetch('https://vaultcoin-production.up.railway.app/referral/', {
-          method: 'GET',
-          headers: {
-            accept: 'application/json',
-            Authorization: AUTH_TOKEN,
-            'X-CSRFToken': CSRF_TOKEN,
-          },
-        });
+        const response = await fetch(
+          'https://vaultcoin-production.up.railway.app/referral/',
+          {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization: AUTH_TOKEN,
+              'X-CSRFToken': CSRF_TOKEN,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -34,24 +38,70 @@ const MyReferral = () => {
     };
 
     fetchReferralData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (referralData && referralData.referred_user) {
-      setReferralLink(`https://my-referral-link.com?username=${referralData.referred_user.username}-${referralData.id}`);
+      setReferralLink(
+        `https://my-referral-link.com?username=${referralData.referred_user.username}-${referralData.id}`
+      );
     }
   }, [referralData]);
 
+  useEffect(() => {
+    const getUsernameAndIdFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const username = params.get('username');
+      const userId = params.get('userId');
+      return { username, userId };
+    };
+
+    // Construct the referral link using the extracted username and userId
+    const { username, userId } = getUsernameAndIdFromUrl();
+    if (username && userId) {
+      setReferralLink(`https://your-referral-link.com/${username}/${userId}`);
+    }
+  }, []);
+
   const handleCopyLink = () => {
-    navigator.clipboard
-      .writeText(referralLink)
-      .then(() => {
-        setCopied(true);
-        console.log('Referral link copied to clipboard');
-      })
-      .catch((error) => {
-        console.error('Error copying referral link: ', error);
-      });
+    if (referralLink) {
+      navigator.clipboard
+        .writeText(referralLink)
+        .then(() => {
+          setCopied(true);
+          console.log('Referral link copied to clipboard');
+        })
+        .catch((error) => {
+          console.error('Error copying referral link: ', error);
+        });
+    }
+  };
+
+  const shareViaEmail = () => {
+    window.location.href = `mailto:?subject=Check%20out%20this%20referral%20program&body=Hey!%20I%20thought%20you%20might%20be%20interested%20in%20this%20referral%20program:%20${referralLink}`;
+  };
+
+  const shareViaFacebook = () => {
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        referralLink
+      )}`,
+      '_blank'
+    );
+  };
+
+  const shareViaWhatsApp = () => {
+    window.open(
+      `whatsapp://send?text=${encodeURIComponent(referralLink)}`,
+      '_blank'
+    );
+  };
+
+  const shareViaTelegram = () => {
+    window.open(
+      `https://telegram.me/share/url?url=${encodeURIComponent(referralLink)}`,
+      '_blank'
+    );
   };
 
   return (
@@ -69,9 +119,36 @@ const MyReferral = () => {
             Earn more when you refer your friends to invest with us. The reward
             on our referral program is dependent on the deposit plans.
           </p>
+          <div className="flex justify-around items-center gap-3 my-20 max-xl:flex-col ">
+            <button
+              className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]"
+              onClick={shareViaEmail}
+            >
+              Email
+            </button>
+            <button
+              className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]"
+              onClick={shareViaFacebook}
+            >
+              Facebook
+            </button>
+            <button
+              className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]"
+              onClick={shareViaWhatsApp}
+            >
+              Whatsapp
+            </button>
+            <button
+              className="py-3 px-4 w-[25%] bg-blue-700 text-white rounded max-xl:w-[100%]"
+              onClick={shareViaTelegram}
+            >
+              Telegram
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 text-center">
+          <p>Your Referral Link:</p>
           <input
             type="text"
             value={referralLink}
@@ -97,7 +174,6 @@ const MyReferral = () => {
           </div>
         )}
       </div>
-      <PricingPlan />
     </div>
   );
 };

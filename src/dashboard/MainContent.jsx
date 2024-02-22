@@ -36,7 +36,7 @@ const MainContent = ({ selectedItem }) => {
     'My Referral': <MyReferral />,
     Notifications: <Notification />,
     'Contact Support': <Contact/>,
-    Logout: "",
+    "Logout": "",
     
   };
 

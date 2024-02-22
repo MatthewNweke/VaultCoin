@@ -1,17 +1,18 @@
 import { useState,useEffect } from 'react';
-import PricingPlan from '../components/PricingPlan';
 import { useLocation } from 'react-router-dom';
+import { usePaymentMethod } from '../context/PaymentMethodContext'
 
 const Payment = () => {
+  const { paymentMethod } = usePaymentMethod();
   const location = useLocation();
-  const { amount, date, time,walletAddress } = location.state;
-  
+  const { amount, date, time, walletAddress } = location.state || {}; 
+  const currentDate = new Date();
   useEffect(() => {
     console.log('Location State:', location.state);
 
   }, []);
   const [referralLink, setReferralLink] = useState(
-    'rnFXnrgpekdBa1dxR99QcUsdX6bmVLqhq4'
+    {walletAddress}
   );
   const [copied, setCopied] = useState(false);
 
@@ -40,7 +41,7 @@ const Payment = () => {
               <p>Transaction </p>
               <p>Amount</p>
               <p>Transaction</p>
-              <p> {date} {time}</p>
+              <p>date time</p>
               <p>Payment Method</p>
             </div>
 
@@ -48,9 +49,10 @@ const Payment = () => {
               <p>STPM2408</p>
               <p>${amount}</p>
               <p>
-                {date} {time}
+              {currentDate.toLocaleTimeString()}   {currentDate.toLocaleDateString()}
               </p>
-              <p>Ripple</p>
+              
+              <p>{paymentMethod}</p>
             </div>
           </div>
           <div className="text-center leading-9">
@@ -86,9 +88,7 @@ const Payment = () => {
         </div>
       </div>
 
-      <div className="p-5">
-        <PricingPlan />
-      </div>
+      
     </div>
   );
 };

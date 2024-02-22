@@ -1,4 +1,3 @@
-import PricingPlan from '../components/PricingPlan';
 import { useState,useEffect } from 'react';
 
 const Profile = () => {
@@ -70,8 +69,7 @@ const Profile = () => {
           
           <button className='bg-blue-600 rounded my-5 text-white px-8 py-2 mx-2'>Update Password</button>
         </form>
-      </div>
-      <PricingPlan />
+      </div>    
     </div>
   );
 };

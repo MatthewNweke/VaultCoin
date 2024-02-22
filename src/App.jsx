@@ -12,11 +12,11 @@ import SignIn from './pages/SignIn';
 import MyReferral from './dashboard/MyReferral';
 import Payment from './dashboard/Payment';
 import ForgotPassword from './pages/ForgotPassword';
-
-
+import HandleDeposit from './components/HandleDeposit';
+import { TokenProvider } from './context/TokenContext';
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-// import { Dashboard, Auth } from './components/dashboard/layouts';
+
 
 function App() {
   const location = useLocation();
@@ -25,25 +25,30 @@ function App() {
     document.querySelector('html').style.scrollBehavior = 'auto';
     window.scroll({ top: 0 });
     document.querySelector('html').style.scrollBehavior = '';
-  }, [location.pathname]); // triggered on route change
+  }, [location.pathname]); 
 
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/plan" element={<Plan />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms&condition" element={<Terms />} />
-        <Route path="/dashboard" element={<Dashboard />} /> 
-        <Route path="/signin" element={<SignIn />} /> 
-        <Route path="/referral" element={<MyReferral />} />  
-        <Route path="/payment" element={<Payment />} />  
-        <Route path="/forgot-password" element={<ForgotPassword />} />  
-      </Routes>
-    </div>
+    <TokenProvider>
+      <div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/plan" element={<Plan />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms&condition" element={<Terms />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/referral" element={<MyReferral />} />
+          {/* <Route path="/payment" element={<Payment />} /> */}
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+
+          <Route path="/" exact component={HandleDeposit} />
+          <Route path="/payment" element={<Payment />} /> {/* Render Payment component here */}
+        </Routes>
+      </div>
+     </TokenProvider>
   );
 }
 

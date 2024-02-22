@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
-import PricingPlan from '../components/PricingPlan';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
-const Notification = () => {
+const Notification = ({ authToken, csrfToken }) => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
@@ -14,8 +12,8 @@ const Notification = () => {
             method: 'GET',
             headers: {
               accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Authorization: authToken,
+              'X-CSRFToken': csrfToken,
             },
           }
         );
@@ -33,7 +31,7 @@ const Notification = () => {
 
     // Call the fetchNotifications function
     fetchNotifications();
-  }, []); // Empty dependency array means this effect will run once when the component mounts
+  }, [authToken, csrfToken]); // Now this effect will re-run whenever authToken or csrfToken changes
 
   return (
     <div>
@@ -50,8 +48,6 @@ const Notification = () => {
           </div>
         ))}
       </div>
-
-      <PricingPlan />
     </div>
   );
 };

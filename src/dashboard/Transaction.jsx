@@ -1,4 +1,3 @@
-import PricingPlan from '../components/PricingPlan';
 import {useState,useEffect} from 'react'
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
@@ -52,7 +51,6 @@ const Transaction = () => {
         ))}
       </div>
 
-      <PricingPlan />
     </div>
   );
 };

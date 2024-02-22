@@ -45,9 +45,9 @@ const Sides = ({ username, onItemSelected }) => {
     'My Referral',
     'Notifications',
     'Contact Support',
-    <button className="bg-[transparent] text-black border-none mb-5">
+    <li className="bg-[transparent] text-black hover:text-white border-none mb-5">
       Logout
-    </button>,
+    </li>,
   ];
 
   useEffect(() => {

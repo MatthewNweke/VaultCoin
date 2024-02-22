@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import { Link } from 'react-router-dom';
 
 const NotificationDropdown = ({ notifications }) => {
   return (
@@ -43,19 +44,19 @@ const Header = () => {
   return (
     <div className="h-[5rem] my-5 px-3 w-[100%] rounded bg-blue-700 text-white hidden lg:block relative">
       <ul className="flex h-[100%] gap-10  items-center  justify-around max-2xl:justify-center font-semibold">
-        <li className="cursor-pointer">Deposit</li>
-        <li className="cursor-pointer">Withdraw</li>
-        <li className="cursor-pointer">Wallet</li>
-        <li className="cursor-pointer">History</li>
-        <li className="cursor-pointer">Plans</li>
-        <li className="cursor-pointer">Support</li>
-        <li className="cursor-pointer relative" onClick={toggleDropdown}>
+       <Link to=""> <li className="cursor-pointer text-white">Deposit</li> </Link>
+       <Link to=""> <li className="cursor-pointer text-white">Withdraw</li> </Link>
+       <Link to=""> <li className="cursor-pointer text-white">Wallet</li></Link>
+       <Link to=""> <li className="cursor-pointer text-white">History</li></Link>
+       <Link to=""> <li className="cursor-pointer text-white">Plans</li></Link>
+       <Link to=""> <li className="cursor-pointer text-white">Support</li></Link>
+       <Link to=""> <li className="cursor-pointer text-white relative" onClick={toggleDropdown}>
           <img src="/notification_bell.svg" alt="" />
-          {notifications.length > 0 && <span className="bg-red-500 absolute bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notifications.length}</span>}
+          {notifications.length > 0 && <span className="bg-red-500  bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notifications.length}</span>}
           {isDropdownVisible && (
             <NotificationDropdown notifications={notifications} />
           )}
-        </li>
+        </li> </Link>
       </ul>
       {isDropdownVisible && (
         <div

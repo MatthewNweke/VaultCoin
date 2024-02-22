@@ -111,7 +111,7 @@ const Withdrawal = () => {
   };
 
   return (
-    <div className="">
+    <div className="h-[100vh]">
       <div className="shadow-xl py-5 px-5 max-lg:mt-10">
         <p className="text-xl my-5">Make Withdrawal</p>
         {walletAdded && (
@@ -178,7 +178,7 @@ const Withdrawal = () => {
         </div>
       )}
 
-      <PricingPlan />
+      {/* <PricingPlan /> */}
 
       {showModal && (
         <div className=" flex justify-center relative bottom-[30rem]  z-50">

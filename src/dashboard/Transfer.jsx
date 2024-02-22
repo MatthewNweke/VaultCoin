@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const Transfer = () => {
@@ -92,7 +91,7 @@ const Transfer = () => {
           {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         </form>
       </div>
-      <PricingPlan />
+    
     </div>
   );
 };

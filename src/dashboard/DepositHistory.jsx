@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import PricingPlan from '../components/PricingPlan';
 import { AUTH_TOKEN, CSRF_TOKEN } from './config';
 
 const DepositHistory = () => {
@@ -58,7 +57,6 @@ const DepositHistory = () => {
         ))}
       </div>
 
-      <PricingPlan />
     </div>
   );
 };

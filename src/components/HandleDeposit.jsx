@@ -15,9 +15,6 @@ const HandleDeposit = () => {
   const [loading, setLoading] = useState(false);
   const [depositDate, setDepositDate] = useState('');
   const [depositTime, setDepositTime] = useState('');
-  const [plans, setPlans] = useState([]);
-  const [error, setError] = useState('');
-  const [categories, setCategories] = useState([]);
 
   const navigate = useNavigate();
 
@@ -35,8 +32,7 @@ const HandleDeposit = () => {
           }
         );
 
-        setPlans(response.data.plans);
-        setCategories(response.data.categories);
+       
       } catch (error) {
         console.error('Error fetching plans:', error.response?.data);
       }
@@ -121,10 +117,9 @@ const HandleDeposit = () => {
     setEnteredAmount(amount);
     setAmountError('');
 
-    // Convert entered amount to USDT
+    
     if (amount !== '') {
-      // You need to implement this conversion logic
-      // For this example, let's just pretend the conversion rate is 1
+      
       setUsdtAmount(amount);
     } else {
       setUsdtAmount('');

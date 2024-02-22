@@ -10,7 +10,8 @@ const SignIn = () => {
   const [error, setError] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
-  const [lineWidth, setLineWidth] = useState('100%'); // Initial line width
+  const [lineWidth, setLineWidth] = useState('100%');
+  const [csrfToken, setCsrfToken] = useState('');
 
   const navigate = useNavigate();
 
@@ -22,6 +23,13 @@ const SignIn = () => {
       setShowPopup(true);
       setPopupMessage('Signing in...');
 
+      // Fetch CSRF token
+      await axios.get('https://vaultcoin-production.up.railway.app/csrf-token')
+        .then(response => {
+          const csrfToken = response.headers['x-csrf-token'];
+          setCsrfToken(csrfToken);
+        });
+
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/user/auth/login/',
         {
@@ -31,6 +39,7 @@ const SignIn = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken 
           },
         }
       );
@@ -39,10 +48,6 @@ const SignIn = () => {
 
       if (user && token && token.access) {
         console.log('JWT Token:', `Bearer ${token.access}`);
-        axios.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${token.access}`;
-
         setPopupMessage('Logged in successfully!');
 
         setTimeout(() => {
@@ -181,12 +186,13 @@ const SignIn = () => {
           </form>
 
           <Link to="/forgot-password">
-            <p className="mt-32 text-right mr-10 ">Forgot Password</p>
+            <p className="mt-20 flex justify-center">
+              <span>Forgot Password</span>
+            </p>
           </Link>
         </div>
       </MainLayout>
     </div>
   );
 };
-
 export default SignIn;

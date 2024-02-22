@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PricingPlan from '../components/PricingPlan';
 import WithdrawalDeleteButton from './WithdrawalDeleteButton';
 
 const WithdrawalHistory = () => {
@@ -55,8 +54,6 @@ const WithdrawalHistory = () => {
           </div>
         ))}
       </div>
-
-      <PricingPlan />
     </div>
   );
 };

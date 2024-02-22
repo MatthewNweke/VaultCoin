@@ -121,10 +121,9 @@ const MakeDeposit = () => {
     setEnteredAmount(amount);
     setAmountError('');
 
-    // Convert entered amount to USDT
+   
     if (amount !== '') {
-      // You need to implement this conversion logic
-      // For this example, let's just pretend the conversion rate is 1
+    
       setUsdtAmount(amount);
     } else {
       setUsdtAmount('');
@@ -246,10 +245,7 @@ const MakeDeposit = () => {
               <li className='flex w-[100%] justify-between'><span>Duration:</span> <span> {plan.number_of_days} Day(s)</span></li>
             </ul>
           </div>
-
           <HandleDeposit/>
-        
-         
         </div>
       ))}
       <div className="ml-5">
