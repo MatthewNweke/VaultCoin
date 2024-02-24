@@ -1,26 +1,24 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const Notification = ({ authToken, csrfToken }) => {
+const Notification = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/notification/',
           {
-            method: 'GET',
             headers: {
               accept: 'application/json',
-              Authorization: authToken,
-              'X-CSRFToken': csrfToken,
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
 
-        if (response.ok) {
-          const data = await response.json();
-          setNotifications(data.notifications);
+        if (response.status === 200) {
+          setNotifications(response.data.notifications);
         } else {
           console.error('Failed to fetch notifications');
         }
@@ -29,15 +27,15 @@ const Notification = ({ authToken, csrfToken }) => {
       }
     };
 
-    // Call the fetchNotifications function
+    
     fetchNotifications();
-  }, [authToken, csrfToken]); // Now this effect will re-run whenever authToken or csrfToken changes
+  }, [authToken, csrfToken]); 
 
   return (
     <div>
       <div className=" shadow-xl rounded px-5 py-10">
         <p className="py-10 px-5 font-semibold text-2xl">All Notifications</p>
-
+            
         {notifications.map((notification, index) => (
           <div
             key={index}

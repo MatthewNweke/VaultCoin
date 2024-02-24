@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+
 
 const AllTransfers = () => {
  
@@ -14,9 +14,8 @@ const AllTransfers = () => {
         const response = await fetch('https://vaultcoin-production.up.railway.app/transfer/', {
           method: 'GET',
           headers: {
-            accept: 'application/json',
-            Authorization: AUTH_TOKEN,
-            'X-CSRFToken': CSRF_TOKEN
+            Accept: 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
           }
         });
 

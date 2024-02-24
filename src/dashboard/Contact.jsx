@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config'
+
 
 const Contact = () => {
   const [subject, setSubject] = useState('');
@@ -14,10 +14,8 @@ const Contact = () => {
       const response = await fetch('https://vaultcoin-production.up.railway.app/contact/', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': AUTH_TOKEN,
-          'X-CSRFToken': CSRF_TOKEN
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + localStorage.getItem('token')
         },
         body: JSON.stringify({
           subject: subject,

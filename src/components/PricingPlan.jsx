@@ -2,7 +2,7 @@ import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MakeDeposit from './MakeDeposit';
 
-const PricingPlan = ({ bonusData }) => {
+const PricingPlan = () => {
   const [enteredAmount1, setEnteredAmount1] = useState('');
   const [selectedWallet, setSelectedWallet] = useState(null);
 
@@ -28,7 +28,7 @@ const PricingPlan = ({ bonusData }) => {
     if (parseInt(enteredAmount1, 10) < 10000) {
       setAmountError1('Minimum amount is $10,000');
     } else {
-      setAmountError1(''); // No error message
+      setAmountError1('');
     }
   };
 

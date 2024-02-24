@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import axios from 'axios'; 
+import PricingPlan from '../components/PricingPlan';
 
 const DepositHistory = () => {
   const [deposits, setDeposits] = useState([]);
@@ -7,24 +8,17 @@ const DepositHistory = () => {
   useEffect(() => {
     const fetchDeposits = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/deposit/',
           {
-            method: 'GET',
             headers: {
               Accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch deposits');
-        }
-
-        const data = await response.json();
-        setDeposits(data);
+        setDeposits(response.data);
       } catch (error) {
         console.error('Error fetching deposits:', error.message);
       }
@@ -57,6 +51,7 @@ const DepositHistory = () => {
         ))}
       </div>
 
+      <PricingPlan />
     </div>
   );
 };

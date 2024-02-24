@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import axios from 'axios'; 
 import { Link } from 'react-router-dom';
 
 const NotificationDropdown = ({ notifications }) => {
@@ -19,19 +19,19 @@ const Header = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    // Fetch notifications from the provided API
-    fetch('https://vaultcoin-production.up.railway.app/notification/', {
-      method: 'GET',
+    axios.get('https://vaultcoin-production.up.railway.app/notification/', {
       headers: {
         Accept: 'application/json',
-        Authorization: AUTH_TOKEN,
-        'X-CSRFToken': CSRF_TOKEN
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       },
     })
-      .then((response) => response.json())
-      .then((data) => setNotifications(data.notifications))
-      .catch((error) => console.error('Error fetching notifications:', error));
-  }, []); // Empty dependency array ensures this effect runs once on component mount
+      .then((response) => {
+        setNotifications(response.data.notifications);
+      })
+      .catch((error) => {
+        console.error('Error fetching notifications:', error);
+      });
+  }, []); 
 
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
@@ -43,20 +43,15 @@ const Header = () => {
 
   return (
     <div className="h-[5rem] my-5 px-3 w-[100%] rounded bg-blue-700 text-white hidden lg:block relative">
-      <ul className="flex h-[100%] gap-10  items-center  justify-around max-2xl:justify-center font-semibold">
-       <Link to=""> <li className="cursor-pointer text-white">Deposit</li> </Link>
-       <Link to=""> <li className="cursor-pointer text-white">Withdraw</li> </Link>
-       <Link to=""> <li className="cursor-pointer text-white">Wallet</li></Link>
-       <Link to=""> <li className="cursor-pointer text-white">History</li></Link>
-       <Link to=""> <li className="cursor-pointer text-white">Plans</li></Link>
-       <Link to=""> <li className="cursor-pointer text-white">Support</li></Link>
-       <Link to=""> <li className="cursor-pointer text-white relative" onClick={toggleDropdown}>
+      <ul className="flex h-[100%] gap-10  items-center  justify-between px-5 max-2xl:justify-center font-semibold">
+     <Link to="/"><li><img src="/FxLogo.png" className="" width={200} height={50} alt="" /></li></Link>   
+        <li className="cursor-pointer relative" onClick={toggleDropdown}>
           <img src="/notification_bell.svg" alt="" />
-          {notifications.length > 0 && <span className="bg-red-500  bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notifications.length}</span>}
+          {notifications.length > 0 && <span className="bg-red-500 absolute bottom-[1rem] rounded-full text-[0.8rem] py-1/2 px-1 left-0 text-center text-white">{notifications.length}</span>}
           {isDropdownVisible && (
             <NotificationDropdown notifications={notifications} />
           )}
-        </li> </Link>
+        </li>
       </ul>
       {isDropdownVisible && (
         <div

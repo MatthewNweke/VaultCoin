@@ -1,55 +1,46 @@
 import React, { useState } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import axios from 'axios'; 
+
 
 const Transfer = () => {
-  // State to manage form inputs
   const [receiverUsername, setReceiverUsername] = useState('');
   const [amount, setAmount] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null); // State to store error message
-  const [responseMessage, setResponseMessage] = useState(null); // State to store response message
+  const [errorMessage, setErrorMessage] = useState(null); 
+  const [responseMessage, setResponseMessage] = useState(null); 
 
-  // Function to handle form submission
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Make POST request to API endpoint
-      const response = await fetch(
+      const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/transfer/',
         {
-          method: 'POST',
+          email: receiverUsername,
+          usdt_amount: amount,
+        },
+        {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization: AUTH_TOKEN,
-            'X-CSRFToken': CSRF_TOKEN,
+              Authorization: 'Bearer ' + localStorage.getItem('token')
           },
-          body: JSON.stringify({
-            email: receiverUsername,
-            usdt_amount: amount,
-          }),
         }
       );
 
-      // Check if request was successful
-      if (response.ok) {
-        // Handle success
-        const responseData = await response.json();
-        setResponseMessage(responseData.message); // Set response message
-        setErrorMessage(null); // Clear error message if previous transfer attempt had an error
+      if (response.status === 200) {
+        setResponseMessage(response.data.message); 
+        setErrorMessage(null); 
       } else {
-        // Handle error response
-        const errorData = await response.json();
-        setResponseMessage(null); // Clear response message if there was an error
-        setErrorMessage(errorData.message); // Set error message received from the backend
+        setResponseMessage(null);
+        setErrorMessage(response.data.message);
       }
 
       console.log(response);
     } catch (error) {
-      // Handle fetch error
       console.error('Error making transfer:', error);
       setErrorMessage('Failed to make transfer. Please try again later.');
-      setResponseMessage(null); // Clear response message if there was an error
+      setResponseMessage(null); 
     }
   };
 
@@ -86,12 +77,11 @@ const Transfer = () => {
             Make Transfer
           </button>
 
-          {/* Display response message or error message if they exist */}
+         
           {responseMessage && <div className="text-green-500">{responseMessage}</div>}
           {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         </form>
       </div>
-    
     </div>
   );
 };

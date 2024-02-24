@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+
 
 const NotificationDropdown = ({ notifications }) => {
   return (
@@ -45,7 +45,7 @@ const Sides = ({ username, onItemSelected }) => {
     'My Referral',
     'Notifications',
     'Contact Support',
-    <li className="bg-[transparent] text-black hover:text-white border-none mb-5">
+    <li className="text-white border-none mb-5">
       Logout
     </li>,
   ];
@@ -58,9 +58,8 @@ const Sides = ({ username, onItemSelected }) => {
           {
             method: 'GET',
             headers: {
-              accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
@@ -120,9 +119,6 @@ const Sides = ({ username, onItemSelected }) => {
             : '-translate-x-full max-lg:overflow-y-hidden shadow-none'
         } font-semibold overflow-hidden  text-black overflow-y-auto pb-20 h-screen fixed w-full my-4 ml-4 rounded-tr-none rounded-br-none rounded-xl duration-300 transition-transform bg-white lg:translate-x-0 lg:static max-xl:w-[15rem] `}
       >
-        <div className='shadow-xl'>
-          <img src="/FxLogo.png" className="" width={200} height={50} alt="" />
-        </div>
         <p className="p-10 font-semibold text-xl text-center">
           Welcome back <br /> <span className="text-blue-500 text-2xl font-bold">{username}</span>
         </p>
@@ -145,7 +141,7 @@ const Sides = ({ username, onItemSelected }) => {
                   item
                 ) : (
                   <button
-                    className="bg-transparent text-black border-none mb-5"
+                    className="bg-transparent text-black h-[100%]  block w-[100%] hover:text-white border-none mb-5"
                     onClick={handleLogout}
                   >
                     Logout

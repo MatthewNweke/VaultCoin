@@ -1,28 +1,25 @@
-import {useState,useEffect} from 'react'
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import { useState, useEffect } from 'react';
+import axios from 'axios'; // Import axios
+
 
 const Transaction = () => {
-
   const [deposits, setDeposits] = useState([]);
 
   useEffect(() => {
     const fetchDeposits = async () => {
       try {
-        const response = await fetch('https://vaultcoin-production.up.railway.app/deposit/', {
-          method: 'GET',
+        const response = await axios.get('https://vaultcoin-production.up.railway.app/deposit/', {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': AUTH_TOKEN,
-            'X-CSRFToken': CSRF_TOKEN
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           },
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
           throw new Error('Failed to fetch deposits');
         }
 
-        const data = await response.json();
-        setDeposits(data);
+        setDeposits(response.data);
       } catch (error) {
         console.error('Error fetching deposits:', error.message);
       }
@@ -30,7 +27,6 @@ const Transaction = () => {
 
     fetchDeposits();
   }, []);
-
 
   return (
     <div>
@@ -50,7 +46,6 @@ const Transaction = () => {
           </div>
         ))}
       </div>
-
     </div>
   );
 };

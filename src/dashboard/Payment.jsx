@@ -1,18 +1,16 @@
 import { useState,useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { usePaymentMethod } from '../context/PaymentMethodContext'
 
 const Payment = () => {
-  const { paymentMethod } = usePaymentMethod();
   const location = useLocation();
-  const { amount, date, time, walletAddress } = location.state || {}; 
+  const { amount, date, time,walletAddress,paymentMethod} = location.state;
   const currentDate = new Date();
   useEffect(() => {
     console.log('Location State:', location.state);
 
   }, []);
   const [referralLink, setReferralLink] = useState(
-    {walletAddress}
+    'rnFXnrgpekdBa1dxR99QcUsdX6bmVLqhq4'
   );
   const [copied, setCopied] = useState(false);
 
@@ -51,7 +49,7 @@ const Payment = () => {
               <p>
               {currentDate.toLocaleTimeString()}   {currentDate.toLocaleDateString()}
               </p>
-              
+              <p>jjjf</p>
               <p>{paymentMethod}</p>
             </div>
           </div>

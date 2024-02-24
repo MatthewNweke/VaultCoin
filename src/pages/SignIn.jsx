@@ -11,25 +11,19 @@ const SignIn = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [lineWidth, setLineWidth] = useState('100%');
-  const [csrfToken, setCsrfToken] = useState('');
-
+  const [accessToken, setAccessToken] = useState('');
+ 
+  
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     try {
       setError('');
       setShowPopup(true);
       setPopupMessage('Signing in...');
-
-      // Fetch CSRF token
-      await axios.get('https://vaultcoin-production.up.railway.app/csrf-token')
-        .then(response => {
-          const csrfToken = response.headers['x-csrf-token'];
-          setCsrfToken(csrfToken);
-        });
-
+  
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/user/auth/login/',
         {
@@ -39,17 +33,23 @@ const SignIn = () => {
         {
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': csrfToken 
           },
         }
       );
-
+  
       const { user, token } = response.data;
-
+  
       if (user && token && token.access) {
-        console.log('JWT Token:', `Bearer ${token.access}`);
-        setPopupMessage('Logged in successfully!');
+       
+        localStorage.setItem('token', token.access);
+        console.log(localStorage);
+  
 
+        setAccessToken(token.access);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token.access}`;
+        
+        setPopupMessage('Logged in successfully!');
+  
         setTimeout(() => {
           navigate('/dashboard', { state: { user } });
         }, 3000);
@@ -66,6 +66,7 @@ const SignIn = () => {
       }, 2000);
     }
   };
+  
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -195,4 +196,5 @@ const SignIn = () => {
     </div>
   );
 };
+
 export default SignIn;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import axios from 'axios';
 
 const MyReferral = () => {
   const [referralLink, setReferralLink] = useState(
@@ -11,20 +11,18 @@ const MyReferral = () => {
   useEffect(() => {
     const fetchReferralData = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/referral/',
           {
-            method: 'GET',
             headers: {
-              accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
 
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = response.data;
           if (data && data.length > 0) {
             // Assuming only the first referral data is used
             setReferralData(data[0]);

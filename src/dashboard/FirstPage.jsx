@@ -1,7 +1,7 @@
-import MyReferral from './MyReferral';
 import { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
-import { AUTH_TOKEN, CSRF_TOKEN } from './config';
+import axios from 'axios'; 
+import { CSRF_TOKEN } from './config';
 
 const FirstPage = () => {
   const [referralLink, setReferralLink] = useState(
@@ -10,7 +10,6 @@ const FirstPage = () => {
   const [copied, setCopied] = useState(false);
   const [deposits, setDeposits] = useState([]);
   const [referralCount, setReferralCount] = useState(0);
-  
 
   useEffect(() => {
     const getUsernameFromUrl = () => {
@@ -18,14 +17,11 @@ const FirstPage = () => {
       return params.get('username');
     };
 
-    // Construct the referral link using the extracted username
     const username = getUsernameFromUrl();
     if (username) {
-      setReferralLink(`https://your-referral-link.com/${username}`); // Replace with your actual referral link format
+      setReferralLink(`${username}`);
     }
   }, []);
-
-
 
   const handleCopyLink = () => {
     navigator.clipboard
@@ -42,24 +38,17 @@ const FirstPage = () => {
   useEffect(() => {
     const fetchDeposits = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/deposit/',
           {
-            method: 'GET',
             headers: {
               Accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch deposits');
-        }
-
-        const data = await response.json();
-        setDeposits(data);
+        setDeposits(response.data);
       } catch (error) {
         console.error('Error fetching deposits:', error.message);
       }
@@ -72,35 +61,6 @@ const FirstPage = () => {
   const handleReferral = () => {
     setReferralCount(referralCount + 1);
   };
-
-  useEffect(() => {
-    const fetchDeposits = async () => {
-      try {
-        const response = await fetch(
-          'https://vaultcoin-production.up.railway.app/deposit/',
-          {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch deposits');
-        }
-
-        const data = await response.json();
-        setDeposits(data);
-      } catch (error) {
-        console.error('Error fetching deposits:', error.message);
-      }
-    };
-
-    fetchDeposits();
-  }, []);
 
   const shareViaEmail = () => {
     window.location.href = `mailto:?subject=Check%20out%20this%20referral%20program&body=Hey!%20I%20thought%20you%20might%20be%20interested%20in%20this%20referral%20program:%20${referralLink}`;
@@ -131,16 +91,10 @@ const FirstPage = () => {
 
   return (
     <div className=" py-10 px-5">
-      {/* <select name="deposit" id="" className="w-[100%] my-5 cursor-pointer">
-        <option value="deposit" className="py-5">
-          Choose type of deposit
-        </option>
-        <option value="deposit">Real estate</option>
-        <option value="deposit">Crypto Minning</option>
-      </select> */}
+     
       <div className="flex justify-between  items-center  max-xl:flex-col">
         <div className="w-[45%] my-2 max-xl:w-[90%] max-sm:w-[100%]">
-          {deposits.map((deposit) => (
+          {deposits.length > 0 && deposits.map((deposit) => (
             <div
               key={deposit.id}
               className={`bg-${

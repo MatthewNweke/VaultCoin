@@ -14,10 +14,7 @@ const WithdrawalHistory = () => {
             method: 'GET',
             headers: {
               Accept: 'application/json',
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MTkyMDY4LCJpYXQiOjE3MDgwODQwNjgsImp0aSI6ImQ1YTdhODJmNWJkNDRmMjlhNzI2YjczNWRkMmZkZTJlIiwidXNlcl9pZCI6NzAsImZpcnN0X25hbWUiOiJOV0VLRSIsImVtYWlsIjoibndla2VtYXR0aGV3MjQzQGdtYWlsLmNvbSIsInVzZXJfbmFtZSI6IlBtYXR0IiwiaWQiOjcwfQ.DluUHTq4V11CwWF9MZN2i_4GTld2hhQXtoYHas5WKfk',
-              'X-CSRFToken':
-                'GXOVvqLsbPPbk15uGg21RHuR6hRerkxzYt7DH0xwcrw1iRF8m7jk6igpk0Wxp2XZ',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );

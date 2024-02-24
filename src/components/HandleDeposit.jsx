@@ -1,8 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AUTH_TOKEN, CSRF_TOKEN } from '../dashboard/config';
-
 
 const HandleDeposit = () => {
   const [enteredAmount, setEnteredAmount] = useState('');
@@ -25,9 +23,8 @@ const HandleDeposit = () => {
           'https://vaultcoin-production.up.railway.app/plans/',
           {
             headers: {
-              accept: 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
@@ -48,9 +45,8 @@ const HandleDeposit = () => {
           'https://vaultcoin-production.up.railway.app/walletaddress/',
           {
             headers: {
-              'Content-Type': 'application/json',
-              Authorization: AUTH_TOKEN,
-              'X-CSRFToken': CSRF_TOKEN,
+              Accept: 'application/json',
+              Authorization: 'Bearer ' + localStorage.getItem('token')
             },
           }
         );
@@ -160,9 +156,8 @@ const HandleDeposit = () => {
         },
         {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: AUTH_TOKEN,
-            'X-CSRFToken': CSRF_TOKEN,
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem('token')
           },
         }
       );
