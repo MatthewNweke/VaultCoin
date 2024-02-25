@@ -113,7 +113,7 @@ const LogIn = () => {
               </button>
               <p>
                 Have an account?{' '}
-                <Link to="/Dashboard"> <span className="text-green-500  cursor-pointer">Login</span>{' '}</Link>
+                <Link to="/dashboard"> <span className="text-green-500  cursor-pointer">Login</span>{' '}</Link>
               </p>
             </div>
           </form>

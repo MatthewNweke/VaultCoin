@@ -26,7 +26,7 @@ const Header = () => {
     <div className={`w-full flex shadow-md fixed z-40 top-0 left-0 justify-around max-lg:block transition-all duration-300 ${isScrolled ? 'bg-blue-500 bg-opacity-90' : 'bg-blue-700'
       }`}>
       <div className="flex justify-between items-center py-4  px-5 lg:px-10 xl:px-20">
-        <img src="/FxLogo.png" className='' width={200} height={50} alt="" />
+        <Link to="/"> <img src="/FxLogo.png" className='cursor-pointer' width={200} height={50} alt="" /> </Link>
 
         {/* Responsive Hamburger Menu */}
         <div className="lg:hidden">
@@ -64,7 +64,7 @@ const Header = () => {
             </p>
           </Link>
           <div className="cursor-pointer">
-            <Link to="/Plan">
+            <Link to="/plan">
               <p className="font-semibold text-white text-sm max-lg:text-[1.2rem]">
                 Plan
               </p>
@@ -103,7 +103,7 @@ const Header = () => {
         </div>
 
         <div className="cursor-pointer">
-          <Link to="/Plan">
+          <Link to="/plan">
             <p className="font-semibold text-white text-sm">Plan</p>
           </Link>
         </div>
