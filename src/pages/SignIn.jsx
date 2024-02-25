@@ -40,11 +40,11 @@ const SignIn = () => {
       const { user, token } = response.data;
   
       if (user && token && token.access) {
-       
         localStorage.setItem('token', token.access);
-        console.log(localStorage);
   
-
+       
+        localStorage.setItem('username', user.username);
+  
         setAccessToken(token.access);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token.access}`;
         
@@ -67,7 +67,6 @@ const SignIn = () => {
     }
   };
   
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setLineWidth(`${Math.max(lineWidth.slice(0, -1) - 1, 0)}%`);

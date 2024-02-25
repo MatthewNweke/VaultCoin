@@ -7,12 +7,13 @@ const Notification = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
+        const token = localStorage.getItem('token');
         const response = await axios.get(
           'https://vaultcoin-production.up.railway.app/notification/',
           {
             headers: {
               accept: 'application/json',
-              Authorization: 'Bearer ' + localStorage.getItem('token')
+              Authorization: 'Bearer ' + token
             },
           }
         );
@@ -29,7 +30,7 @@ const Notification = () => {
 
     
     fetchNotifications();
-  }, [authToken, csrfToken]); 
+  }, []); // removed authToken and csrfToken from the dependency array
 
   return (
     <div>

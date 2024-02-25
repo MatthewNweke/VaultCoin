@@ -1,28 +1,23 @@
 import { useState, useEffect } from 'react';
 import PricingPlan from '../components/PricingPlan';
 import axios from 'axios'; 
-import { CSRF_TOKEN } from './config';
+
 
 const FirstPage = () => {
   const [referralLink, setReferralLink] = useState(
-    'https://your-referral-link.com'
+    ''
   );
   const [copied, setCopied] = useState(false);
   const [deposits, setDeposits] = useState([]);
   const [referralCount, setReferralCount] = useState(0);
 
   useEffect(() => {
-    const getUsernameFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('username');
-    };
-
-    const username = getUsernameFromUrl();
+    const username = localStorage.getItem('username');
     if (username) {
-      setReferralLink(`${username}`);
+      setReferralLink(username);
     }
   }, []);
-
+  
   const handleCopyLink = () => {
     navigator.clipboard
       .writeText(referralLink)
@@ -102,7 +97,7 @@ const FirstPage = () => {
               } rounded h-[5rem] py-8 flex justify-around items-center cursor-pointer hover:bg-[#00000010]`}
             >
               <div>
-                <p>Deposit#{deposit.id}</p>{' '}
+                <p>Deposit</p>{' '}
                 <p className="text-[0.5rem]">{deposit.created}</p>
               </div>
               <p>{`$${deposit.amount}`}</p>
@@ -168,9 +163,7 @@ const FirstPage = () => {
                 {copied ? 'Copied!' : 'Copy Referral Link'}
               </button>
             </div>
-            {/* Display referral count */}
             <p>Total Referrals: {referralCount}</p>
-            {/* Button to simulate referral */}
             <button onClick={handleReferral}>Simulate Referral</button>
           </div>
         </div>

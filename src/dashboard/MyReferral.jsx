@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const MyReferral = () => {
-  const [referralLink, setReferralLink] = useState(
-    'https://your-referral-link.com'
-  );
+  const [referralLink, setReferralLink] = useState('');
   const [copied, setCopied] = useState(false);
   const [referralData, setReferralData] = useState(null);
 
@@ -16,7 +14,7 @@ const MyReferral = () => {
           {
             headers: {
               Accept: 'application/json',
-              Authorization: 'Bearer ' + localStorage.getItem('token')
+              Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
           }
         );
@@ -39,25 +37,11 @@ const MyReferral = () => {
   }, []);
 
   useEffect(() => {
-    if (referralData && referralData.referred_user) {
-      setReferralLink(
-        `https://my-referral-link.com?username=${referralData.referred_user.username}-${referralData.id}`
-      );
-    }
-  }, [referralData]);
-
-  useEffect(() => {
-    const getUsernameAndIdFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      const username = params.get('username');
-      const userId = params.get('userId');
-      return { username, userId };
-    };
-
-    // Construct the referral link using the extracted username and userId
-    const { username, userId } = getUsernameAndIdFromUrl();
-    if (username && userId) {
-      setReferralLink(`https://your-referral-link.com/${username}/${userId}`);
+    const username = localStorage.getItem('username');
+    if (username) {
+      setReferralLink(username);
+    } else {
+      setReferralLink('');
     }
   }, []);
 
