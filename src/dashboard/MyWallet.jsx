@@ -104,7 +104,7 @@ const MyWallet = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg p-8 w-96">
             <p className="text-center font-semibold mb-3">Add Wallet</p>
-            {/* Wallet type selection */}
+            
             <select
               name="walletType"
               value={walletType}

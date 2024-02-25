@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PricingPlan from '../components/PricingPlan';
 
 const Withdrawal = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [walletAdded, setWalletAdded] = useState(false);
   const [withdrawalAmount, setWithdrawalAmount] = useState('');
   const [usdtAmount, setUsdtAmount] = useState('');
   const [walletType, setWalletType] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
-  const [walletTypeError, setWalletTypeError] = useState(false);
-  const [walletAddressError, setWalletAddressError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [withdrawalHistory, setWithdrawalHistory] = useState([]);
+  const [walletTypes, setWalletTypes] = useState([]);
+  const [selectedWallet, setSelectedWallet] = useState('');
 
   useEffect(() => {
-    // Fetch withdrawal history when component mounts
-    fetchWithdrawalHistory();
-  }, []); // Empty dependency array ensures this effect runs only once
+    fetchWalletTypes();
+  }, []); 
 
-  const fetchWithdrawalHistory = async () => {
+  // Fetch wallet types from the API
+  const fetchWalletTypes = async () => {
     try {
       const response = await axios.get(
-        'https://vaultcoin-production.up.railway.app/withdraw/user/withdraw/completed',
+        'https://example.com/api/user/1', // Replace with your API endpoint
         {
           headers: {
             Accept: 'application/json',
@@ -30,51 +28,28 @@ const Withdrawal = () => {
         }
       );
 
-      setWithdrawalHistory(response.data.withdraws);
+      const userWallets = response.data;
+      const types = Object.keys(userWallets[0]).filter(key => key.endsWith('_address'));
+      setWalletTypes(types);
+      if (types.length > 0) {
+        setWalletType(types[0]); // Select the first wallet type by default
+      }
     } catch (error) {
-      console.error('Error fetching withdrawal history:', error.message);
+      console.error('Error fetching wallet types:', error.message);
     }
   };
 
-  const handleAddWalletClick = (e) => {
+  // Handle the submission of a new withdrawal
+  const handleWithdrawalSubmit = async (e) => {
     e.preventDefault();
-    setShowModal(true);
-    // Disable scrolling when modal is opened
-    document.body.style.overflow = 'hidden';
-  };
-
-  const handleWalletAdded = (e) => {
-    e.preventDefault();
-    if (walletType && walletAddress) {
-      setWalletAdded(true);
-      setShowModal(false); // Close the modal after adding wallet
-      // Enable scrolling when modal is closed
-      document.body.style.overflow = 'auto';
-    } else {
-      if (!walletType) setWalletTypeError(true);
-      if (!walletAddress) setWalletAddressError(true);
-    }
-  };
-
-  const handleCancel = () => {
-    setShowModal(false);
-    document.body.style.overflow = 'auto';
-  };
-
-  const handleWithdrawalClick = (e) => {
-    e.preventDefault();
-    handleWithdrawalSubmit();
-  };
-
-  const handleWithdrawalSubmit = async () => {
     try {
       const response = await axios.post(
         'https://vaultcoin-production.up.railway.app/withdraw/',
         {
-          amount: parseFloat(withdrawalAmount),
+          amount: withdrawalAmount,
           wallet_type: walletType,
           wallet_address: walletAddress,
-          usdt_amount: parseFloat(usdtAmount),
+          usdt_amount: usdtAmount,
         },
         {
           headers: {
@@ -88,42 +63,69 @@ const Withdrawal = () => {
       console.log('Withdrawal successful');
     } catch (error) {
       console.error('Withdrawal error:', error.message);
-      setErrorMessage(error.response.data.UsdtAmount); // Set the error message state
-    } finally {
+      setErrorMessage(error.response?.data?.UsdtAmount || 'An error occurred during withdrawal');
     }
   };
 
   return (
-    <div className="h-[100vh]">
-      <div className=" flex justify-center relative bottom-[30rem]  z-50">
-       
+    <div className="w-full shadow-xl px-5 py-2">
+      <div className="flex flex-col justify-center items-center h-full">
+        <form action="" className="rounded-lg p-8 w-full">
           <div className="mt-10">
-            <p className="text-center my-3 font-semibold">Enter Amount *</p>
-            <input type="text" className="w-[100%] rounded" />
+            <p className="my-3 font-semibold">Enter Amount *</p>
+            <input
+              type="text"
+              value={withdrawalAmount}
+              onChange={(e) => setWithdrawalAmount(e.target.value)}
+              className="w-full rounded"
+            />
           </div>
-          <p className="text-center my-3 font-semibold">Select Wallet  *</p>
-          <select
-            name="walletType"
-            value={walletType}
-            onChange={(e) => {
-              setWalletType(e.target.value);
-              setWalletTypeError(false);
-            }}
-            className="w-[100%] rounded"
-          >
-            <option value="BTC">BTC</option>
-            <option value="ETH">ETH</option>
-            <option value="LTC">LTC</option>
-            <option value="XRP">XRP</option>
-            <option value="USDT">USDT</option>
-            <option value="Account Balance">Account Balance</option>
-          </select>
-          {walletTypeError && (
-            <p className="text-red-500 text-sm mt-1">
-              Please select a wallet type
-            </p>
-          )}
-       
+
+          <div className="mt-5">
+            <p className="my-3 font-semibold">Select Wallet Type *</p>
+            <select
+              name="walletType"
+              value={walletType}
+              onChange={(e) => setWalletType(e.target.value)}
+              className="w-full rounded"
+            >
+              {/* {walletTypes.map((type, index) => (
+                <option key={index} value={type}>{type}</option>
+              ))} */}
+
+              <option value="">Select wallet</option>
+              <option value="BTC">BTC</option>
+            </select>
+          </div>
+
+          <div className="mt-5">
+            <p className="my-3 font-semibold">Enter Wallet Address *</p>
+            <input
+              type="text"
+              value={walletAddress}
+              onChange={(e) => setWalletAddress(e.target.value)}
+              className="w-full rounded"
+            />
+          </div>
+
+          <div className="mt-5">
+            <p className="my-3 font-semibold">Enter USDT Amount *</p>
+            <input
+              type="text"
+              value={usdtAmount}
+              onChange={(e) => setUsdtAmount(e.target.value)}
+              className="w-full rounded"
+            />
+          </div>
+
+          <button className="transform -translate-x-1/2 relative left-1/2 mt-10 px-3 py-2 bg-blue-500 text-white" onClick={handleWithdrawalSubmit}>
+            Withdraw
+          </button>
+
+          {errorMessage && <p className="text-red-500 text-center mt-3">{errorMessage}</p>}
+        </form>
+
+        <PricingPlan />
       </div>
     </div>
   );

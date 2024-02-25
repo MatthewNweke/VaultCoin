@@ -20,6 +20,7 @@ import FirstPage from './FirstPage';
 
 
 const MainContent = ({ selectedItem }) => {
+ 
   const contentMap = {
     Dashboard: <FirstPage/>,
     Deposit: <Deposits />,
