@@ -38,7 +38,7 @@ const Home = () => {
           </ul>
           <Link to="/signup">
             <button className="text-white font-bold py-3 px-5 bg-blue-700  rounded-lg">
-              Start learning
+              Start investing
             </button>
           </Link>
         </div>

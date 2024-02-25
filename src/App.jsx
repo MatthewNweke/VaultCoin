@@ -1,21 +1,22 @@
 import './App.css';
 
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Register from './pages/Register';
-import Plan from './pages/Plan';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Home from './pages/Home';
-import Terms from './pages/Terms';
-import Dashboard from './dashboard/Dashboard';
-import SignIn from './pages/SignIn';
-import MyReferral from './dashboard/MyReferral';
-import Payment from './dashboard/Payment';
-import ForgotPassword from './pages/ForgotPassword';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import HandleDeposit from './components/HandleDeposit';
 import { TokenProvider } from './context/TokenContext';
-import { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import Dashboard from './dashboard/Dashboard';
+import MyReferral from './dashboard/MyReferral';
+import Payment from './dashboard/Payment';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Error from './pages/Error';
+import ForgotPassword from './pages/ForgotPassword';
+import Home from './pages/Home';
+import Plan from './pages/Plan';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Register from './pages/Register';
+import SignIn from './pages/SignIn';
+import Terms from './pages/Terms';
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
     document.querySelector('html').style.scrollBehavior = 'auto';
     window.scroll({ top: 0 });
     document.querySelector('html').style.scrollBehavior = '';
-  }, [location.pathname]); 
+  }, [location.pathname]);
 
   return (
     <TokenProvider>
@@ -46,9 +47,10 @@ function App() {
 
           <Route path="/" exact component={HandleDeposit} />
           <Route path="/payment" element={<Payment />} /> {/* Render Payment component here */}
+          <Route path="*" element={<Error />} />
         </Routes>
       </div>
-     </TokenProvider>
+    </TokenProvider>
   );
 }
 
